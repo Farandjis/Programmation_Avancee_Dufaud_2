@@ -1,0 +1,67 @@
+https://www.baeldung.com/a-guide-to-java-sockets
+
+----------------- COMMENTAIRES DE M DUFAUD A L'ORAL --------------------
+
+
+public class GreetServer {
+    private ServerSocket serverSocket;
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+
+    public void start(int port) {
+        serverSocket = new ServerSocket(port); // il prend un port entrée
+        clientSocket = serverSocket.accept();
+        out = new PrintWriter(clientSocket.getOutputStream(), true); // objet qui prend le flux de sorti. Tout ce qu'on écrit est le flux de sorti du client Socket
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); // cette fois ci ce sont les flux de sorti des clients Socket
+        String greeting = in.readLine();
+            if ("hello server".equals(greeting)) { // si ce qu'on a reçu est bien "hello server"
+                out.println("hello client"); // on lui envoi "hello client" (on lui répond donc à l'aide de notre object out)
+            }
+            else {
+                out.println("unrecognised greeting"); // sinon, on dit qu'on a pas compris ce qu'il a dit
+            }
+    }
+
+    public void stop() { // pour arrêter
+        in.close(); // on ferme le flux
+        out.close(); // on ferme le flux
+        clientSocket.close(); // on ferme le socket
+        serverSocket.close(); // on ferme le socket
+    }
+    public static void main(String[] args) {
+        GreetServer server=new GreetServer();
+        server.start(6666);
+    }
+}
+
+
+=======================================================================================
+
+
+public class GreetClient {
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+
+    public void startConnection(String ip, int port) {
+        clientSocket = new Socket(ip, port); // On connecte le client au serveur en lui disant où se trouve la socket (ip + port). L'adresse correspond à ce qu'on a dit au serveur.
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    }
+
+    public String sendMessage(String msg) {
+        out.println(msg); // on envoi le message
+	  // Note : dès qu'il y a readLine, on attend une réponse. On ne passe à la suite que losque l'on reçois une réponse.
+        String resp = in.readLine(); // il attend la réponse du serveur et on la récupère. On sait qu'il va répondre, au vu de notre code (donc soit hello soit on ne comprend pas).
+        return resp;
+    }
+
+    public void stopConnection() {
+        in.close();
+        out.close();
+        clientSocket.close();
+    }
+}
+
+Now le

@@ -27,7 +27,7 @@ public class WorkerSocket {
         PrintWriter pWrite = new PrintWriter(new BufferedWriter(new OutputStreamWriter(soc.getOutputStream())), true);
 	String str;
         while (isRunning) {
-	    str = bRead.readLine();          // read message from Master
+	    str = bRead.readLine();          // read message from Master -- Il attend, il ne passera pas cette ligne tant qu'il n'a pas reçus de message.
 	    if (!(str.equals("END"))){
 		System.out.println("Server receives totalCount = " +  str);
 		

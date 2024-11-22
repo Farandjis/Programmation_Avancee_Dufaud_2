@@ -67,43 +67,43 @@ public class MasterSocket {
 
        while (message_repeat.equals("y")){
 
-	   startTime = System.currentTimeMillis();
-	   // initialize workers
-	   for(int i = 0 ; i < numWorkers ; i++) {
-	       writer[i].println(message_to_send);          // send a message to each worker
-	   }
-	   
-	   //listen to workers's message 
-	   for(int i = 0 ; i < numWorkers ; i++) {
-	       tab_total_workers[i] = reader[i].readLine();      // read message from server
-	       System.out.println("Client sent: " + tab_total_workers[i]);
-	   }
-	   
-	   // compute PI with the result of each workers
-	   for(int i = 0 ; i < numWorkers ; i++) {
-	       total += Integer.parseInt(tab_total_workers[i]);
-	   }
-	   pi = 4.0 * total / totalCount / numWorkers;
+		   startTime = System.currentTimeMillis();
+		   // initialize workers
+		   for(int i = 0 ; i < numWorkers ; i++) {
+			   writer[i].println(message_to_send);          // send a message to each worker
+		   }
 
-	   stopTime = System.currentTimeMillis();
+		   //listen to workers's message
+		   for(int i = 0 ; i < numWorkers ; i++) {
+			   tab_total_workers[i] = reader[i].readLine();      // read message from server
+			   System.out.println("Client sent: " + tab_total_workers[i]);
+		   }
 
-	   System.out.println("\nPi : " + pi );
-	   System.out.println("Error: " + (Math.abs((pi - Math.PI)) / Math.PI) +"\n");
-	   
-	   System.out.println("Ntot: " + totalCount*numWorkers);
-	   System.out.println("Available processors: " + numWorkers);
-	   System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
-	   
-	   System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
+		   // compute PI with the result of each workers
+		   for(int i = 0 ; i < numWorkers ; i++) {
+			   total += Integer.parseInt(tab_total_workers[i]);
+		   }
+		   pi = 4.0 * total / totalCount / numWorkers;
 
-	   System.out.println("\n Repeat computation (y/N): ");
-	   try{
-	       message_repeat = bufferRead.readLine();
-	       System.out.println(message_repeat);
-	   }
-	   catch(IOException ioE){
-	       ioE.printStackTrace();
-	   }
+		   stopTime = System.currentTimeMillis();
+
+		   System.out.println("\nPi : " + pi );
+		   System.out.println("Error: " + (Math.abs((pi - Math.PI)) / Math.PI) +"\n");
+
+		   System.out.println("Ntot: " + totalCount*numWorkers);
+		   System.out.println("Available processors: " + numWorkers);
+		   System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
+
+		   System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
+
+		   System.out.println("\n Repeat computation (y/N): ");
+		   try{
+			   message_repeat = bufferRead.readLine();
+			   System.out.println(message_repeat);
+		   }
+		   catch(IOException ioE){
+			   ioE.printStackTrace();
+		   }
        }
        
        for(int i = 0 ; i < numWorkers ; i++) {
