@@ -1,0 +1,6 @@
+uniformiser le code
+la sorti doit être la même
+chaque sortie s'enregistre dans un fichier : nb points total, nb de processus, nb de points comptés dans la cible, temps et erreur
+
+
+cf : Discord

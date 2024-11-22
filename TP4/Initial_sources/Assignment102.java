@@ -3,6 +3,7 @@ package assignments;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import external.WriteToFile;
 class PiMonteCarlo {
 	AtomicInteger nAtomSuccess;
 	int nThrows;
@@ -21,8 +22,8 @@ class PiMonteCarlo {
 		this.nThrows = i; // Throws signifie lancer. On peut IMAGINER que c'est le nombre de lancé
 		this.value = 0; // peut-être que c'est Pi
 	}
-	public double getPi() {
-		int nProcessors = Runtime.getRuntime().availableProcessors(); // runtime : c'est l'environnement pendant le temps d'exécution du code. Ici elle nous propose de regarder le nb processeurs dispo
+	public double getPi(int numWorkers) {
+		int nProcessors = numWorkers; // runtime : c'est l'environnement pendant le temps d'exécution du code. Ici elle nous propose de regarder le nb processeurs dispo
 		ExecutorService executor = Executors.newWorkStealingPool(nProcessors); // il fixe le nb de thread au nb de processeur détecté par la JVM (donc si dans le bios on a autorisé l'hyperthreading, alors il va dire que c'est 8 professeurs (8 coeurs en réalités), sinon 4)
 		for (int i = 1; i <= nThrows; i++) {
 			Runnable worker = new MonteCarlo();
@@ -37,14 +38,35 @@ class PiMonteCarlo {
 }
 public class Assignment102 {
 	public static void main(String[] args) {
-		PiMonteCarlo PiVal = new PiMonteCarlo(100000); // On instancie MonteCarlo il fait 100 000
+		int totalCount = 50000;
+		int numWorkers = 10;
+
+		PiMonteCarlo PiVal = new PiMonteCarlo(totalCount); // On instancie MonteCarlo il fait 100 000
 		long startTime = System.currentTimeMillis(); // On règle un timer
-		double value = PiVal.getPi(); // on lance le code parallèle (c'est getPi())
+		double value = PiVal.getPi(numWorkers); // on lance le code parallèle (c'est getPi())
 		long stopTime = System.currentTimeMillis(); // on mesure le temps à la sortie
+
+
+		System.out.println("\nPi : " + value );
+		System.out.println("Error: " + String.format("%.10e",(Math.abs((value - Math.PI)) / Math.PI)) +"\n");
+
+		System.out.println("Ntot: " + totalCount * numWorkers);
+		System.out.println("Available processors: " + numWorkers);
+		System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
+
+		System.out.println( (Math.abs((value - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
+
+
+		String result = value + ", " + String.format("%.10e",(Math.abs((value - Math.PI)) / Math.PI)) + ", " + totalCount * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
+		WriteToFile.writeToFileWithSuffix("Assigment102", result);
+		System.out.println(result);
+
+		/*
 		System.out.println("Approx value:" + value); // affichage blablabla
 		System.out.println("Difference to exact value of pi: " + (value - Math.PI));
 		System.out.println("Error: " + (value - Math.PI) / Math.PI * 100 + " %");
 		System.out.println("Available processors: " + Runtime.getRuntime().availableProcessors());
 		System.out.println("Time Duration: " + (stopTime - startTime) + "ms");
+		*/
 	}
 }

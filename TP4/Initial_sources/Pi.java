@@ -1,3 +1,5 @@
+import external.WriteToFile;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -55,14 +57,21 @@ class Master {
 
 	long stopTime = System.currentTimeMillis();
 
+
 	System.out.println("\nPi : " + pi );
-	System.out.println("Error: " + (Math.abs((pi - Math.PI)) / Math.PI) +"\n");
+	System.out.println("Error: " + String.format("%.10e",(Math.abs((pi - Math.PI)) / Math.PI)) +"\n");
 
 	System.out.println("Ntot: " + totalCount*numWorkers);
+	// System.out.println("Available processors: " + numWorkers);
 	System.out.println("Available processors: " + numWorkers);
 	System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
 
 	System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
+
+	String result = pi + ", " + String.format("%.10e",(Math.abs((pi - Math.PI)) / Math.PI)) + ", " + totalCount * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
+	WriteToFile.writeToFileWithSuffix("Pi", result);
+
+	System.out.println(result);
 
 	exec.shutdown();
 	return total;
