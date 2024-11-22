@@ -1,0 +1,29 @@
+// Le 15/11/2024
+=== Assignment102 ===
+Code calculant une valeur approximative de Pi à partir de la technique de MonteCarlo
+
+2 choses nouvelles : attomic integer et executor
+
+On définit un objet executor qui est un support de thread.
+On va lui dire : tu définie le nombre de threads que tu vas utiliser
+-> il permet de faire l'association entre des tâches et des threads de manière dynamique en fonction de l'exécution (??) des tâches en cours
+	-> Il est donc possible d'associer 1000 tâches à 4 threads (au lieu de 1000 tâches = 1000 threads dans le TP mobile, vu qu'on ne pouvait pas utiliser Executor).
+		===> ON ABANDONNE LA CLASSE THREAD, on utilise désormais la classe Executor (cf diapo cours)
+
+workstiling : algo de vol de tâche 
+
+
+====> paradigme d'Assigment102 : itération parallèle = parallélisme de boucle = parallélisme itératif
+
+----
+les futures : paradigme de programmation qui est très pratique qui permet de déifnir quand on créer notre tâche : définit le schéma de dépenfance entre les tâches l'idée est de dire que la tâche va envoyer un résultat dans le futur; On ne sait pas quand il va l'envoyer, mais plus loin dans le code on va utliser son code.
+On dit que la tâche x va envoyer un res y dans le temps. la tâche s'éxecute, on continu le code (d'autres trucs s'exécute), puis un moment x renvoi le res, et on fait un calcul. -> le code à ce moment là, pour calculer doit attendre lel resultat de x, c'est un point de synchronisation
+
+Note : start != run 
+
+
+
+V est un type générique
+
+
+overhead : ordonnanceur de l'OS (??)

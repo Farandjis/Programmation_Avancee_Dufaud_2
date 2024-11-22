@@ -1,0 +1,32 @@
+// Le 15/11/2024
+
+A propos de Pi.java
+
+Paradigme : Master Worker
+
+On a un Master qui va créer puis lancer des tâches qui via le paradigme des futures on fait une résolution de dépendance (??).
+
+
+
+Pi.java est plus efficace que Assigmnent102
+Puisque si on créer 500000 tâche, l'OS gère et ça prend plus de temps que faire :
+	génération nb aléatoire x, génération nb aléatoire y, test, incrément (~40 cycles)
+
+NB :
+Executors.newFixedThreadPool(numWorkers) : Renvoyer une instance de type ExecutorService qui utilise un pool de threads dont la taille est fixe. Les tâches à exécuter sont stockées dans une queue
+
+
+--------------------
+
+le 15/11/2024 16h06
+
+
+Pb de rapidité du code (temps exécution à la miliseconde) -> les analyseurs de performances etc n'arrivent pas à suivre. Donc on aura des infos incohérence, il faut donc travailler aussi à la miliseconde.
+
+Exemple :
+On a un chronomètre, et on doit mesurer le temps de passage d'un objet
+Si on fait bouger un ballon lentement -> mesure facilement
+Si c'est un coureur -> mesure assez rapidement
+Si c'est une voiture à 40 km/h -> Difficilement
+Si c'est 100 km/h -> Quasi impossible
+==> Beaucoup trop rapide pour nous !
