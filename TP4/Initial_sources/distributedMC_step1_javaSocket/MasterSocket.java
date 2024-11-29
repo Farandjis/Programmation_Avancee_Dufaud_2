@@ -1,5 +1,9 @@
+package distributedMC_step1_javaSocket;
+
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+
 /** Master is a client. It makes requests to numWorkers.
  *   
  */
@@ -7,55 +11,72 @@ public class MasterSocket {
     static int maxServer = 8;
     static final int[] tab_port = {25545,25546,25547,25548,25549,25550,25551,25552};
     static String[] tab_total_workers = new String[maxServer];
-    static final String ip = "127.0.0.1";
+    // static final String ip = "127.0.0.1"; // par défaut
     static BufferedReader[] reader = new BufferedReader[maxServer];
     static PrintWriter[] writer = new PrintWriter[maxServer];
     static Socket[] sockets = new Socket[maxServer];
-    
+	static ArrayList<String> lesIpWorkers = new ArrayList<>();
     
     public static void main(String[] args) throws Exception {
 
-	// MC parameters
-	int totalCount = 16000000; // total number of throws on a Worker
-	int total = 0; // total number of throws inside quarter of disk
-	double pi; 
+		// MC parameters
+		int totalCount = 16000000; // total number of throws on a Worker
+		int total = 0; // total number of throws inside quarter of disk
+		double pi;
 
-	int numWorkers = maxServer;
-	BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-	String s; // for bufferRead
+		int numWorkers = maxServer;
+		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+		String s; // for bufferRead
+		String ipWorker;
 
-	System.out.println("#########################################");
-	System.out.println("# Computation of PI by MC method        #");
-	System.out.println("#########################################");
-	
-	System.out.println("\n How many workers for computing PI (< maxServer): ");
-	try{
-	    s = bufferRead.readLine();
-	    numWorkers = Integer.parseInt(s);
-	    System.out.println(numWorkers);
-	}
-	catch(IOException ioE){
-	   ioE.printStackTrace();
-	}
-	
-	for (int i=0; i<numWorkers; i++){
-	    System.out.println("Enter worker"+ i +" port : ");
-	    try{
-		s = bufferRead.readLine();
-		System.out.println("You select " + s);
-	    }
-	    catch(IOException ioE){
-		ioE.printStackTrace();
-	    }
-	}
+		System.out.println("#########################################");
+		System.out.println("# Computation of PI by MC method        #");
+		System.out.println("#########################################");
+
+		System.out.println("\n How many workers for computing PI (< maxServer): ");
+		try{
+			s = bufferRead.readLine();
+			numWorkers = Integer.parseInt(s);
+			System.out.println(numWorkers);
+		}
+		catch(IOException ioE){
+		   ioE.printStackTrace();
+		}
+
+
+
+		for (int i=0; i<numWorkers; i++){
+			System.out.println("Enter worker"+ i +" ip : ");
+			/*
+			try{
+				ipWorker = bufferRead.readLine();
+				System.out.println("You select " + ipWorker);
+				lesIpWorkers.add(ipWorker);
+			}
+			catch(IOException ioE){
+				ioE.printStackTrace();
+			}
+			*/
+			lesIpWorkers.add("127.0.0.1");
+
+			System.out.println("Enter worker"+ i +" port : ");
+			try{
+			s = bufferRead.readLine();
+			System.out.println("You select " + s);
+			}
+			catch(IOException ioE){
+			ioE.printStackTrace();
+			}
+		}
 
        //create worker's socket
        for(int i = 0 ; i < numWorkers ; i++) {
-	   sockets[i] = new Socket(ip, tab_port[i]);
-	   System.out.println("SOCKET = " + sockets[i]);
-	   
-	   reader[i] = new BufferedReader( new InputStreamReader(sockets[i].getInputStream()));
-	   writer[i] = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sockets[i].getOutputStream())),true);
+		   sockets[i] = new Socket(lesIpWorkers.get(i), tab_port[i]);
+		   // sockets[i] = new Socket(ip, tab_port[i]);
+		   System.out.println("SOCKET = " + sockets[i]);
+
+		   reader[i] = new BufferedReader( new InputStreamReader(sockets[i].getInputStream()));
+		   writer[i] = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sockets[i].getOutputStream())),true);
        }
 
        String message_to_send;
