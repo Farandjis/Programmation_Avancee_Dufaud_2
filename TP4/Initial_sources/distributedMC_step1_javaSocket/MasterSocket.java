@@ -1,5 +1,9 @@
 package distributedMC_step1_javaSocket;
 
+import external.WriteToFile;
+
+import external.WriteToFile;
+
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class MasterSocket {
 		System.out.println("# Computation of PI by MC method        #");
 		System.out.println("#########################################");
 
+		/*
 		System.out.println("\n How many workers for computing PI (< maxServer): ");
 		try{
 			s = bufferRead.readLine();
@@ -42,12 +47,14 @@ public class MasterSocket {
 		catch(IOException ioE){
 		   ioE.printStackTrace();
 		}
+		*/
 
-
+		numWorkers = 2;
 
 		for (int i=0; i<numWorkers; i++){
-			System.out.println("Enter worker"+ i +" ip : ");
 			/*
+			System.out.println("Enter worker"+ i +" ip : ");
+
 			try{
 				ipWorker = bufferRead.readLine();
 				System.out.println("You select " + ipWorker);
@@ -59,6 +66,7 @@ public class MasterSocket {
 			*/
 			lesIpWorkers.add("127.0.0.1");
 
+			/*
 			System.out.println("Enter worker"+ i +" port : ");
 			try{
 			s = bufferRead.readLine();
@@ -67,6 +75,8 @@ public class MasterSocket {
 			catch(IOException ioE){
 			ioE.printStackTrace();
 			}
+
+			 */
 		}
 
        //create worker's socket
@@ -116,6 +126,9 @@ public class MasterSocket {
 		   System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
 
 		   System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
+
+		   String result = pi + ", " + String.format("%.10e",(Math.abs((pi - Math.PI)) / Math.PI)) + ", " + totalCount * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
+		   WriteToFile.writeToFileWithSuffix("Pi", result);
 
 		   System.out.println("\n Repeat computation (y/N): ");
 		   try{

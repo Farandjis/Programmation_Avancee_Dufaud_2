@@ -9,13 +9,21 @@ import java.util.Random;
  * the result to Master.
  */
 public class WorkerSocket {
-    static int port = 25545; //default port
+    static int port; //default port
     private static boolean isRunning = true;
     
     /**
      * compute PI locally by MC and sends the number of points 
      * inside the disk to Master. 
      */
+
+    public WorkerSocket(int parPort) {
+        port = parPort;
+    }
+
+    public WorkerSocket() {
+        port = 25545;
+    }
 
     public static long PermettraDeCalculerPi(int numIterations){
         long circleCount = 0;
