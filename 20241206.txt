@@ -1,0 +1,40 @@
+20241206
+
+- Présenter :
+	- la conception
+	- le paradigme choisi
+	- l'illustrer
+
+- Sur plusieurs machine
+
+   M
+ / | \
+/  |  \
+↓  ↓   ↓
+W  W   W
+\  |  /
+ \ | /
+  \|/
+   ↓
+   M
+
+
+
+----------------------------------------------
+Proposition Plan M Dufaud :
+I - Méthode MC
+II - Algorithme et parallélisation
+	a) Itération parallèle
+	b) Master-Worker
+III - Mise en œuvre sur machine à mémoire partagée
+	a) Analyse d'Assigment102
+	b) Analyse Pi.java
+IV - Qualité et test de performance (cf R05.08 Q Dev)
+V - Mise en œuvre en mémoire distribuée
+	a) (Analyse) JavaSocket
+	b) MasterWorker
+VI - Perf MW dist
+
+
+Remarque 1 : On doit faire une partie par thématique, qui suit l'ordre du cours comme ci-dessus.
+Remarque 2 : On ne doit pas séparer les rapports : Un seul et même rapport pour Prog Avancée et Q Dev. Mais ça reste un nouveau rapport (par rapport au dernier rapport rendu)
