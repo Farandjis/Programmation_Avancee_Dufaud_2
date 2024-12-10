@@ -17,7 +17,7 @@ INF3-FI
 
 <br><br>
 ## Plan
-- **I - Méthode MC**
+- **I - Méthode de Monte-Carlo**
 - **II - Algorithme et parallélisation**
   - a) Itération parallèle
   - b) Master-Worker
@@ -32,7 +32,7 @@ INF3-FI
 <br><br><br>
 
 
-## I - Méthode MC
+## I - Méthode de Monte-Carlo
 Pour résumer, la méthode de Monte-Carlo prédit un résultat à partir d'une portion de valeurs générés aléatoire.<br>
 Elle recalcul plusieurs fois le résultats.<br>
 <br>
@@ -44,7 +44,45 @@ Soit l'aire $`A_{\tfrac{1}{4}d}`$ d'un quart de disque de rayon r=1.<br>
 $$A_{\tfrac{1}{4}d} =  \frac{\pi r^2}{4} = \frac{\pi}{4}$$
 
 
-### II - Algorithme et parallélisation
+<br><img src="img/figure1.png" width="300"/><br>
+_**Figure 1 :** Tirage aléatoire dans un carré de côté r = 1._
+
+
+Soit l'aire d'un carré de côté $`r=1`$, $`A_{c} = r^2 = 1`$ <br>
+<br>
+Soient les points $`X_{p}(x_{p},y_{p})`$ dont les coordonnées sont tirées selon une loi $`U (]0,1[)`$.<br>
+La probabilité que $`X_{p} soit tiré dans le quart de disque est`$
+
+$$P = \frac{A_\frac{{1}{4}d}{A_{c]}} = \frac{\pi}{4}$$
+
+On effectue $`n_{tot}`$ tirages aléatoires.<br>
+Siut $`n_{cible}`$ le nombre de points tirés dans le quart de disque.<br>
+<br>
+Si $`n_{tot}`$ est rand, alors on peut approximer P pour $`P = \frac{n_{cible}}{n_{tot}} \approx \frac{\pi}{4}`$<br>
+<br>
+D'où $`\pi \approx 4 \times \frac{n_{cible}}{n_{tot}}`$<br>
+<br><br>
+
+**ALGORITHME**<br>
+
+<img src="img/algo_mc.png" width="500"/>
+
+
+- On identifie deux
+  - T0 : Tirer et compter $`n_{tot}`$ points
+  - T1 : Calculer $`\pi`$
+- T0 se décompose en $`n_{tot}`$ sous tâches
+  - $`T_{0P1}`$ : tirer $`X_{p}`$
+  - $`T_{0P2}`$ : incrémenter $`n_{cible}`$
+- *Dépendance entre tâches :*
+  - T1 dépend de T0
+  - $`T_{0P2}`$ dépend de $`T_{0P1}`$
+  - Les $`T0P1`$ sont indépendats selon p
+  - Les $`T0P2`$ sont indépendats selon p
+
+
+<br><br><br>
+## II - Algorithme et parallélisation
 
 
 
@@ -62,7 +100,7 @@ $$A_{\tfrac{1}{4}d} =  \frac{\pi r^2}{4} = \frac{\pi}{4}$$
 
 
 
-
+<br><br><br><br><br><br><br><br>
 
 ## I - Présentation des projets
 
