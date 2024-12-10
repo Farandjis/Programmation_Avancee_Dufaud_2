@@ -17,19 +17,51 @@ INF3-FI
 
 <br><br>
 ## Plan
-- **I - Présentation des projets**
-  - a) Présentation d'Assigment102
-  - b) Présentation de Pi.java
-  - c) Présentation de Master-Worker
-- **II - Sortie**
-  - a) Uniformisation de la sortie d'Assigment102 et Pi.java
-  - b) Ecriture dans un fichier texte
-- **III - Projet Master-Worker**
-  - a) Ajout du code pour calculer MonteCarlo et enregistrer dans un fichier
-  - b) Est-Ce que WorkerSocket peut appeler une lib extérieur / un autre code MC / un autre comportement ?
-  - c) Mise en place expérience Scalabilité forte et faible
-  - d) Résultat et études des expériences
+- **I - Méthode MC**
+- **II - Algorithme et parallélisation**
+  - a) Itération parallèle
+  - b) Master-Worker
+- **III - Mise en œuvre sur machine à mémoire partagée**
+  - a) Analyse d'Assigment102
+  - b) Analyse Pi.java
+- **IV - Qualité et test de performance (cf R05.08 Q Dev)**
+- **V - Mise en œuvre en mémoire distribuée**
+  - a) (Analyse) JavaSocket
+  - b) MasterWorker
+- **VI - Perf MW dist**
 <br><br><br>
+
+
+## I - Méthode MC
+Pour résumer, la méthode de Monte-Carlo prédit un résultat à partir d'une portion de valeurs générés aléatoire.<br>
+Elle recalcul plusieurs fois le résultats.<br>
+<br>
+*Méthode d'après IBM : https://www.ibm.com/fr-fr/topics/monte-carlo-simulation* <br>
+<br><br>
+**Calcul de π par une méthode de MonteCarlo, d'après le TP4 fait en cours**<br>
+Soit l'aire $ A_{\tfrac{1}{4}d} $ d'un quart de disque de rayon r=1.<br>
+
+$ A_{\tfrac{1}{4}d} =  \frac{\pi r^2}{4} = \frac{\pi}{4} $
+
+
+### II - Algorithme et parallélisation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## I - Présentation des projets

@@ -38,3 +38,32 @@ VI - Perf MW dist
 
 Remarque 1 : On doit faire une partie par thématique, qui suit l'ordre du cours comme ci-dessus.
 Remarque 2 : On ne doit pas séparer les rapports : Un seul et même rapport pour Prog Avancée et Q Dev. Mais ça reste un nouveau rapport (par rapport au dernier rapport rendu)
+
+
+
+
+---------------------------------
+10h20
+
+ATTENTION : J'ai expérimenté avec les codes de Florent
+
+Lancement des workers sur chaque pc linux
+
+1 Installer Java sur CentOS : sudo yum install java-devel
+-> Installe tout (dont l'environnement, contrairement à juste java)
+
+2 Récupérer IP de chaque PC
+
+3 Récupérer projet depuis GitHub, s'assurer que le code fonctionne déjà sur la machine seul
+
+4 Modifier le code de Master de telle manière il consulte le PC d'à côté
+
+5 Ouvrir les ports 25545 sur les deux PC : firewall-cmd --zone=public --add-port=25545/tcp
+
+6 Compiler les codes : (javac WorkerSocket.java)
+
+7 Lancer sur PC 1 Worker (java WorkerSocket 25545)
+
+8 De même avec PC 2 et Master -> (java WorkerSocket), indiquer le nb de Worker, il consulte automatiquement les Worker.
+
+9 Le résultat apparaît et c'est ok
