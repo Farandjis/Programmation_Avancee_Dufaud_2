@@ -39,9 +39,9 @@ Elle recalcul plusieurs fois le résultats.<br>
 *Méthode d'après IBM : https://www.ibm.com/fr-fr/topics/monte-carlo-simulation* <br>
 <br><br>
 **Calcul de π par une méthode de MonteCarlo, d'après le TP4 fait en cours**<br>
-Soit l'aire $ A_{\tfrac{1}{4}d} $ d'un quart de disque de rayon r=1.<br>
+Soit l'aire $`A_{\tfrac{1}{4}d}`$ d'un quart de disque de rayon r=1.<br>
 
-$ A_{\tfrac{1}{4}d} =  \frac{\pi r^2}{4} = \frac{\pi}{4} $
+$$A_{\tfrac{1}{4}d} =  \frac{\pi r^2}{4} = \frac{\pi}{4}$$
 
 
 ### II - Algorithme et parallélisation
