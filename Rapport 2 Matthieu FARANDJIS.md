@@ -139,22 +139,6 @@ Il est difficile de montrer un exemple du code calculant Monte-Carlo, mais nous 
 
 ## III - Mise en œuvre sur machine à mémoire partagée
 ### a) Analyse d'Assigment102
-### b) Analyse Pi.java
-
-
-
-
-
-
-<br><br><br><br><br><br><br><br>
-
-## I - Présentation des projets
-
-Cette partie traite des différents projets que nous avons utilisés durant nos TP.<br>
-Assigment102 et Pi.java sont les deux premiers projets que nous avons étudiés.<br>
-Le projet Master-Worker est plus complexe, nous l'avons vu après.<br>
-
-### a) Présentation d'Assigment102
 Le code d'Assigment102 calcule une valeur approximative de Pi à partir de la méthode de MonteCarlo.<br>
 On y retrouve deux dépendances nouvelles : Atomic integer et Executor.
 
@@ -167,7 +151,7 @@ On y retrouve deux dépendances nouvelles : Atomic integer et Executor.
   - *https://www.jmdoudoux.fr/java/dej/chap-acces_concurrents.htm*
   - *https://learn.microsoft.com/fr-fr/dotnet/api/java.util.concurrent.atomic.atomicinteger?view=net-android-34.0*
   - *ChatGPT (la phrase du "C'est-à-dire")*
-  <br><br><br>
+    <br><br><br>
 - **Executor :**<br>
   L'interface java.util.concurrent.Executor décrit les fonctionnalités permettant l'exécution différée de tâches implémentées sous la forme de Runnable.<br>
   C’est un support pour les Threads en Java à un plus haut niveau que la classe Thread.<br>
@@ -175,7 +159,7 @@ On y retrouve deux dépendances nouvelles : Atomic integer et Executor.
   On peut ici gérer des pool de Threads. Chaque Thread du pool peut être réutilisé dans un Executor.<br>
   L’interface Executor définit la méthode execute.<br>
   <br>
-  *Sources :* 
+  *Sources :*
   - *https://jmdoudoux.developpez.com/cours/developpons/java/chap-executor.php#executor-1*
   - *Cours de M. DUFAUD : CM4-complement-parallelisation-et-Java.pdf*
 - **Algorithme Workstealing (abordé en cours) :**<br>
@@ -190,7 +174,7 @@ On y retrouve deux dépendances nouvelles : Atomic integer et Executor.
   Paradigme de programmation qui est très pratique, qui permet de définir quand on créer notre tâche le schéma de dépendance entre les tâches.<br>
   L'idée est de dire que la tâche va envoyer un résultat dans le futur; On ne sait pas quand il va l'envoyer, mais plus loin dans le code on va utliser son code.<br>
   On dit que la tâche x va envoyer un res y dans le temps. la tâche s'éxecute, on continu le code (d'autres trucs s'exécutent), puis un moment x renvoi le resultat, et on fait un calcul.<br>
-    - le code à ce moment là, pour calculer doit attendre le resultat de x, c'est un point de synchronisation
+  - le code à ce moment là, pour calculer doit attendre le resultat de x, c'est un point de synchronisation
 
 <br><br>
 On définit un objet executor qui est un support de thread.<br>
@@ -205,25 +189,24 @@ De ce fait, elle ne propose pas des fonctionnalités tel qu'obtenir un résultat
 *Sources :*<br>
 *https://jmdoudoux.developpez.com/cours/developpons/java/chap-executor.php#executor-1*
 
-====> paradigme d'Assigment102 : itération parallèle = parallélisme de boucle = parallélisme itératif
-
-
 <br><br>
 **Note :**
- - start et run sont deux choses différentes 
- - V est un type générique
- - overhead : ordonnanceur de l'OS
+- start et run sont deux choses différentes
+- V est un type générique
+- overhead : ordonnanceur de l'OS
 
 <br><br>
 **Quelques annotations sur le code :**<br>
 - **double y = Math.random();**
   - Si on précise une graine (seed) : le tirage est déterministe. Utile si on veut retester le code (donc en s'assurant qu'on obtient le même résultat)
 - **int nProcessors = Runtime.getRuntime().availableProcessors();**
-  - runtime : c'est l'environnement pendant le temps d'exécution du code. Ici elle nous propose de regarder le nb processeurs dispo 
+  - runtime : c'est l'environnement pendant le temps d'exécution du code. Ici elle nous propose de regarder le nb processeurs dispo
 - **Executors.newWorkStealingPool(nProcessors);**
   - il fixe le nb de thread au nb de processeur détecté par la JVM (donc si dans le bios on a autorisé l'hyperthreading, alors il va dire que c'est 8 professeurs (8 coeurs en réalités), sinon 4)
     <br><br>
-### b) Présentation de Pi.java
+
+### b) Analyse Pi.java
+
 
 **Paradigme de Pi.java :** Master Worker
 
@@ -250,7 +233,13 @@ Pour le dernier projet, on utilise deux fichiers java :
     Sur IntelliJ pour WorkerSocker :
     - Cliquer sur le bouton "3 points vertical", puis dans "Config", dans "Modify options (Build and Run)", cocher Allow m... (CTRL+U) en haut de la liste.
 
-<br><br><br><br><br>
+
+
+
+
+<br><br><br><br><br><br><br><br>
+
+## I - Présentation des projets
 
 ## II - Sortie
 ### a) Uniformisation de la sortie d'Assigment102 et Pi.java
