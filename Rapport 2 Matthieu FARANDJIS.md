@@ -85,22 +85,61 @@ D'où $`\pi \approx 4 \times \frac{n_{cible}}{n_{tot}}`$<br>
 ## II - Algorithme et parallélisation
 ### a) Itération parallèle
 L'itération parallèle est aussi appelé parallélisme de boucle et parallélisme itératif.<br>
+Dans un algorithme parallèle, on suppose que le calcul effectué par une unité de calcul est indépendante de celui effectué par une autre unité de calcul.<br>
+L'adjectif "parallèle" attribué à un tel algorithme provient de ce que cela correspond à une architecture de type SIMD (une Seule Instruction, Multiples Données).<br>
+*Source :*
+  - *Explications adaptés pour Assigment102 :*<br>
+    https://dpt-info.u-strasbg.fr/~cronse/TIDOC/ALGO/parseq.html
+
+
 <br>
-L'algorithme à itération parallèle de la méthode de Monte-Carlo que nous avons vu est Assigment102.<bR>
+L'algorithme à itération parallèle de la méthode de Monte-Carlo que nous avons étudité est Assigment102.<br>
+<br>
 
+Voici un extrait du code d'Assigment102 :<br>
+```
+	class MonteCarlo implements Runnable {
+		@Override
+		public void run() {
+			double x = Math.random(); // génération d'un nombre aléatoire, donc avec y => génération d'un point
+			double y = Math.random(); // Si on précise une graine (seed) : le tirage est déterministe. Utile si on veut retester le code (donc en s'assurant qu'on obtient le même résultat)
+			if (x * x + y * y <= 1)
+				nAtomSuccess.incrementAndGet(); // On remarque que ça resemble à notre pseudo code avec machin++. C'est un msg envoyé à nAtomSuccess
+		}
+	}
 
+	public double getPi(int numWorkers) {
+		int nProcessors = numWorkers; // runtime : c'est l'environnement pendant le temps d'exécution du code. Ici elle nous propose de regarder le nb processeurs dispo
+		ExecutorService executor = Executors.newWorkStealingPool(nProcessors); // il fixe le nb de thread au nb de processeur détecté par la JVM (donc si dans le bios on a autorisé l'hyperthreading, alors il va dire que c'est 8 professeurs (8 coeurs en réalités), sinon 4)
+		for (int i = 1; i <= nThrows; i++) {
+			Runnable worker = new MonteCarlo();
+			executor.execute(worker);
+		}
+		executor.shutdown();
+		while (!executor.isTerminated()) {
+		}
+		value = 4.0 * nAtomSuccess.get() / nThrows;
+		return value;
+	}
+```
 
 ### b) Master-Worker
+Le premier algorithme Master-Worker de la méthode de Monte-Carlo que nous avons étudié est Pi.java.
+
+Master créer puis lance des tâches qui, via le paradigme des futures, fait une résolution de dépendance.<br>
+<br>
+Pi.java est plus efficace que Assigmnent102, puisque si on créer 500000 tâche, l'OS gère lui-même ce qui prend plus de temps que de faire :
+génération nb aléatoire x, génération nb aléatoire y, test, incrément (~40 cycles).<br>
+<br><br>
+Il est difficile de montrer un exemple du code calculant Monte-Carlo, mais nous pouvons le visualiser via le code disponible sur ce dépôt.<br>
+<br><br>
 
 
+<br><br><br>
 
-
-
-
-
-
-
-
+## III - Mise en œuvre sur machine à mémoire partagée
+### a) Analyse d'Assigment102
+### b) Analyse Pi.java
 
 
 
