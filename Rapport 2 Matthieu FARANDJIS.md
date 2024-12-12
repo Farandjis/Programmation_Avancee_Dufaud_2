@@ -56,7 +56,7 @@ La probabilité que $`X_{p}`$ soit tiré dans le quart de disque est
 $$P = \frac{A_\frac{{1}{4}d}{A_{c}}} = \frac{\pi}{4}$$
 
 On effectue $`n_{tot}`$ tirages aléatoires.<br>
-Siut $`n_{cible}`$ le nombre de points tirés dans le quart de disque.<br>
+Soit $`n_{cible}`$ le nombre de points tirés dans le quart de disque.<br>
 <br>
 Si $`n_{tot}`$ est rand, alors on peut approximer P pour $`P = \frac{n_{cible}}{n_{tot}} \approx \frac{\pi}{4}`$<br>
 <br>
@@ -203,7 +203,12 @@ De ce fait, elle ne propose pas des fonctionnalités tel qu'obtenir un résultat
   - runtime : c'est l'environnement pendant le temps d'exécution du code. Ici elle nous propose de regarder le nb processeurs dispo
 - **Executors.newWorkStealingPool(nProcessors);**
   - il fixe le nb de thread au nb de processeur détecté par la JVM (donc si dans le bios on a autorisé l'hyperthreading, alors il va dire que c'est 8 professeurs (8 coeurs en réalités), sinon 4)
-    <br><br>
+<br><br>
+
+Voici un diagramme UML d'Assigment102 :<br>
+<img src="img/uml_assigment102.png" width="600"/><br>
+
+*Les outils suivants m'ont aidé : StarUML, ChatGPT*<br>
 
 ### b) Analyse Pi.java
 
@@ -221,6 +226,13 @@ génération nb aléatoire x, génération nb aléatoire y, test, incrément (~4
 - **Executors.newFixedThreadPool(numWorkers)**
   - Renvoyer une instance de type ExecutorService qui utilise un pool de threads dont la taille est fixe. Les tâches à exécuter sont stockées dans une queue
     <br><br>
+
+Voici un diagramme UML de Pi.java :<br>
+<img src="img/uml_pi.java.png" width="600"/><br>
+
+*Les outils suivants m'ont aidé : StarUML, ChatGPT*<br>
+
+
 ### c) Présentation de Master-Worker
 Pour le dernier projet, on utilise deux fichiers java :
 - Master, qui gère les Workers lancés sur différents ports
