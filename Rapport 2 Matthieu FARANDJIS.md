@@ -13,10 +13,12 @@ INF3-FI
 
 <br><br>
 ### Liens intéressants :
+
 **Sur  :** https://<br>
 
 <br><br>
 ## Plan
+
 - **I - Méthode de Monte-Carlo**
 - **II - Algorithme et parallélisation**
   - a) Itération parallèle
@@ -28,13 +30,15 @@ INF3-FI
 - **V - Mise en œuvre en mémoire distribuée**
   - a) (Analyse) JavaSocket
   - b) MasterWorker
-- **VI - Perf MW dist**
+- **VI - Test de performance Master-Worker distribuée**
 <br><br><br>
 
 
 ## I - Méthode de Monte-Carlo
-Pour résumer, la méthode de Monte-Carlo prédit un résultat à partir d'une portion de valeurs générés aléatoire.<br>
-Elle recalcul plusieurs fois le résultats.<br>
+
+La méthode de Monte-Carlo permet de prédire un résultat à partir d'un ensemble de valeurs générées aléatoirement.<br>
+Elle effectue plusieurs itérations pour recalculer et affiner le résultat.<br>
+L'un des principes fondamentaux de la méthode est qu'une augmentation du nombre d'itérations améliore la précision de l'estimation.<br>
 <br>
 *Méthode d'après IBM : https://www.ibm.com/fr-fr/topics/monte-carlo-simulation* <br>
 <br><br>
@@ -83,7 +87,9 @@ D'où $`\pi \approx 4 \times \frac{n_{cible}}{n_{tot}}`$<br>
 
 <br><br><br>
 ## II - Algorithme et parallélisation
+
 ### a) Itération parallèle
+
 L'itération parallèle est aussi appelé parallélisme de boucle et parallélisme itératif.<br>
 Dans un algorithme parallèle, on suppose que le calcul effectué par une unité de calcul est indépendante de celui effectué par une autre unité de calcul.<br>
 L'adjectif "parallèle" attribué à un tel algorithme provient de ce que cela correspond à une architecture de type SIMD (une Seule Instruction, Multiples Données).<br>
@@ -124,6 +130,7 @@ Voici un extrait du code d'Assigment102 :<br>
 ```
 
 ### b) Master-Worker
+
 Le premier algorithme Master-Worker de la méthode de Monte-Carlo que nous avons étudié est Pi.java.
 
 Master créer puis lance des tâches qui, via le paradigme des futures, fait une résolution de dépendance.<br>
@@ -138,7 +145,9 @@ Il est difficile de montrer un exemple du code calculant Monte-Carlo, mais nous 
 <br><br><br>
 
 ## III - Mise en œuvre sur machine à mémoire partagée
+
 ### a) Analyse d'Assigment102
+
 Le code d'Assigment102 calcule une valeur approximative de Pi à partir de la méthode de MonteCarlo.<br>
 On y retrouve deux dépendances nouvelles : Atomic integer et Executor.
 
@@ -218,7 +227,13 @@ Voici un diagramme UML d'Assigment102 :<br>
 On a un Master qui va créer puis lancer des tâches qui via le paradigme des futures fait une résolution de dépendance.<br>
 <br><br>
 
+Voici un schéma montrant l'interraction entre 1 Master et 3 Workers : <br>
+<img src="img\schema_dufaud_1M_3W_1M.png" width="600"/><br>
 
+*Les outils suivants m'ont aidé : Excalidraw*<br>
+
+
+<br><br>
 Pi.java est plus efficace que Assigmnent102, puisque si on créer 500000 tâche, l'OS gère lui-même ce qui prend plus de temps que de faire :
 génération nb aléatoire x, génération nb aléatoire y, test, incrément (~40 cycles).<br>
 <br><br>
@@ -233,39 +248,22 @@ Voici un diagramme UML de Pi.java :<br>
 *Les outils suivants m'ont aidé : StarUML, ChatGPT*<br>
 
 
-### c) Présentation de Master-Worker
-Pour le dernier projet, on utilise deux fichiers java :
-- Master, qui gère les Workers lancés sur différents ports
-- Worker, qui se lance sur un port, ce qui permet d'en lancer plusieurs simultanéments.<br>
-  <br>**Pour lancer et changer de port :**
-  - **Lancer sur le port 25545 :**<br>
-    Sur IntelliJ pour WorkerSocker :
-    - Cliquer sur le bouton "3 points vertical", puis "Edit" et mettre "25545" dans le port (sous distributedMC).
-  - **Lancer plusieurs instances :**
-    Sur IntelliJ pour WorkerSocker :
-    - Cliquer sur le bouton "3 points vertical", puis dans "Config", dans "Modify options (Build and Run)", cocher Allow m... (CTRL+U) en haut de la liste.
 
+<br><br><br>
 
+## IV - Qualité et test de performance (cf R05.08 Q Dev)
 
+### a) Mise en place
 
-
-<br><br><br><br><br><br><br><br>
-
-## I - Présentation des projets
-
-## II - Sortie
-### a) Uniformisation de la sortie d'Assigment102 et Pi.java
-Nos deux codes affiche les résultats de manière différente. Afin de mieux comparer et étudiier leurs efficacités, nous avons du uniformiser les sorties.<br>
+De prime abord, Assigment102 et Pi.java affiche les résultarts de manière différente. Afin de mieux comparer et étudiier leurs efficacités, nous avons du uniformiser les sorties.<br>
 C'est à dire s'assurer que chaque code affiche/renvoie la même chose.<br>
-<br>
-<br>
+<br><br>
 Ainsi les prints ci-dessous sont dans le même format que ce soit dans Assigment102 ou Pi.java.<br>
 
-
 <img src="img\uni_sorties.png" width="1000"/><br>
-*Code de Pi.java*
+**Code de Pi.java**
 
-### b) Ecriture dans un fichier texte
+<br><br>
 Pour traiter ces informations et facilité l'automatisation du lancement de plusieurs fois d'affiler le code, nous allons sauvegarder ces informations dans un document.<br>
 Pour cela on va créer une classe WriteToFile  :<br>
 <img src="img\wtf.png" width="600"/>
@@ -277,17 +275,71 @@ Pour de meilleurs résultats, dans les faits, il faudrait même fermer tous les 
 <br>
 Ensuite nous écrivons à la suite du fichier les données reçu, on sauvegarde et on affiche si tout s'est bien passé ou non.<br>
 
-<br><br><br><br><br>
+### b) Analyse
 
-## II - Projet Master-Worker
-### a) Ajout du code pour calculer MonteCarlo et enregistrer dans un fichier
+Les tests suivant ont été effectués sur le PC 12 de la salle E51, voici sa configuration :<br>
+- Processeur : Intel Core i7-8700 3.20Ghz
+- RAM : 32Go
+- Windows 11 Pro Education 23H2, build : 22631.4037
+- Carte Graphique : Carte vidéo de base Microsoft
+- Attention, les logiciels suivant étaient en arrière plan : Explorateur Windows, IntelliJ, Firefox, NotePad, VisualStudio Code.<br>
+  Cela influe sur les résultats obtenues, nottament sur le temps d'exécution.<br>
+
+Les résultats et le nom de l'image disent d'eux même, ça ne marche pas :<br>
+<br>Attention, les résultats suivant ont été trouvés pour Assignement102 uniquement, aucun calcul n'a été effectué pour Pi.java (les deux colonnes sont Assignement102).<br>
+<img src="img\nul.png" width="800"/>
+
+
+<br><br><br>
+
+## V - Mise en œuvre en mémoire distribuée
+
+### a) (Analyse) JavaSocket
+
+En Software, le **socket** est un fichier contenant des informations.<br>
+Toutes nos données, toutes les cases mémores sont mis dans un fichier qui est transmis dans le réseau.<br>
+<br>
+Nous en venons au terme **overhead** qui est le temps de traitement de plusieurs processus par la machine.<br>
+On peut le diminuer en augmentant la charge d'un processus, car traiter quelques gros processus est moins couteux que de gérer plusieurs petit processus.<br>
+C'est pour cela que l'architecture d'une carte graphique, utile pour des calcules parallèles n'est pas adapté pour faire fonctionner un système d'exploitation.<br>
+Une carte graphique gère plusieurs petits processus contrairement à un processeurs qui en gère principalement des gros. Avec un GPU, le système serait donc très lent !<br>
+
+### b) MasterWorker
+
+Pour le dernier projet, on utilise deux fichiers java :
+
+- Master, qui gère les Workers lancés sur différents ports
+- Worker, qui se lance sur un port précis. Ce qui permet d'en lancer plusieurs simultanéments sur différents ports.<br>
+  <br><br>
+  Notre objectif à terme est de lancer un Master sur un ordinateur, et utiliser les Workers qui sont sur d'autres ordinateurs.<br>
+  En conséquence, le code est prévu pour : après une petite modification on peut donner des ip personnalisés à Master pour accéder aux autres ordinateurs.<br>
+  Pour le moment, nous allons tester sur une seule machine.<br>
+
+Voici un diagramme UML complet de Master-Worker :<br>
+<img src="img/uml_mw.png" width="800"/><br>
+
+*Les outils suivants m'ont aidé : StarUML, ChatGPT*<br>
+
+<br><br>
+
+J'ai du rajouter un morceau de code pour exécuter la méthode de Monte-Carlo ainsi que l'enregistrement dans un fichier texte comme pour Assigment102 et Pi.java.<br>
 On reprend simplement le morceau de code d'Assigment102 permettant de calculer Pi que l'on place dans une fonction qu'on appel.<br>
 On aurait pu directement l'intégrer au code, seulement celui-ci serait moins maintenable, il serait plus dure de retrouver puis de remplacer le morceau.<br>
 Ici on sait ce qu'il a précisément besoin et ce qu'il doit renvoyer, faire.<br>
 <br>
 <img src="img\permettraDeCalculerPi.png" width="350"/><br>
 <img src="img\whileWorker.png" width="900"/>
+
+<br>**Pour lancer et changer de port :**
+- **Lancer sur le port 25545 :**<br>
+  Sur IntelliJ pour WorkerSocker :
+  - Cliquer sur le bouton "3 points vertical", puis "Edit" et mettre "25545" dans le port (sous distributedMC).
+- **Lancer plusieurs instances :**
+  Sur IntelliJ pour WorkerSocker :
+  - Cliquer sur le bouton "3 points vertical", puis dans "Config", dans "Modify options (Build and Run)", cocher Allow m... (CTRL+U) en haut de la liste.
 <br><br>
-### b) Est-ce que WorkerSocket peut appeler une librairie extérieur / un autre code MC / un autre comportement ?
-### c) Mise en place expérience Scalabilité forte et faible
-### d) Résultat et études des expériences
+Si nous exécutons nos programmes sur une seule machine, la répartition des Worker + Master correspond au schéma du III - b).<br>
+Si nous l'exécutons sur plusieurs machine, cela correspondrais à ça :
+<img src="img\schema_dufaud_1M_3W_1M.png_sur_plusieurs_pc" width="600"/><br>
+
+## VI - Test de performance Master-Worker distribuée

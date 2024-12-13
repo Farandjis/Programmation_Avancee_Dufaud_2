@@ -17,14 +17,15 @@ public class WriteToFile {
 
         String filename = null;
         try {
-            filename = directory + formattedDate + "_" + getLH() + "_output.txt";
+            filename = directory + formattedDate + "_" + suffix +  "_" + getLH() + "_output.txt";
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
 
         try (FileWriter writer = new FileWriter(filename, true)) {
             // Écriture du contenu dans le fichier
-            writer.write( now.format(dateFormatter) + ", " + suffix + ", " + content + "\n");
+            // writer.write( now.format(dateFormatter) + ", " + suffix + ", " + content + "\n");
+            writer.write( content + "\n"); // pour sauveur.txt
             System.out.println("Le fichier '" + filename + "' a été écrit avec succès.");
         } catch (IOException e) {
             // Gestion des erreurs d'écriture

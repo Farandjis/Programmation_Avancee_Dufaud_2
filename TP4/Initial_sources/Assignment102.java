@@ -1,10 +1,12 @@
 // Estimate the value of Pi using Monte-Carlo Method, using parallel program
 package assignments;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import external.WriteToFile;
+import java.time.LocalTime;
 class PiMonteCarlo {
 	AtomicInteger nAtomSuccess;
 	int nThrows;
@@ -41,9 +43,11 @@ public class Assignment102 {
 	public static void main(String[] args) {
 		// int totalCount = 50000;
 		// int numWorkers = 20;
-		final int[] listNumWorkers = {1, 2, 4, 8, 16, 32};
-		final int[] listTotalCount = {15000000};
+		final int[] listNumWorkers = {1, 2, 4, 8}; // , 16, 32
+		final int[] listTotalCount = {12000000};
 		final int tour = 10;
+		String time = String.format("%02d%02d%02d", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
+		WriteToFile.writeToFileWithSuffix(time + "_Assigment102", "Error,Npoint,Pi,Nlance,tempsMilis,Nproc");
 		for (int nbTC = 0; nbTC < listTotalCount.length; nbTC++) {
 			for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
 				for (int nbTour = 0; nbTour < tour; nbTour++) {
@@ -65,8 +69,9 @@ public class Assignment102 {
 					System.out.println((Math.abs((value - Math.PI)) / Math.PI) + " " + listTotalCount[nbTC] * numWorkers + " " + numWorkers + " " + (stopTime - startTime));
 
 
-					String result = value + ", " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + ", " + listTotalCount[nbTC] * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
-					WriteToFile.writeToFileWithSuffix("Assigment102", result);
+					// String result = value + ", " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + ", " + listTotalCount[nbTC] * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
+					String result = String.format(Locale.US, "%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "," + listTotalCount[nbTC] * numWorkers + "," + value + "," + tour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
+					WriteToFile.writeToFileWithSuffix(time + "_Assigment102", result);
 					System.out.println(result);
 				}
 			}

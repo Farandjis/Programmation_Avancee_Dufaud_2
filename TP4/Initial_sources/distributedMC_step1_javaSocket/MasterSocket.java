@@ -37,7 +37,7 @@ public class MasterSocket {
 		System.out.println("# Computation of PI by MC method        #");
 		System.out.println("#########################################");
 
-		/*
+
 		System.out.println("\n How many workers for computing PI (< maxServer): ");
 		try{
 			s = bufferRead.readLine();
@@ -47,9 +47,7 @@ public class MasterSocket {
 		catch(IOException ioE){
 		   ioE.printStackTrace();
 		}
-		*/
 
-		numWorkers = 2;
 
 		for (int i=0; i<numWorkers; i++){
 			/*
@@ -66,7 +64,7 @@ public class MasterSocket {
 			*/
 			lesIpWorkers.add("127.0.0.1");
 
-			/*
+
 			System.out.println("Enter worker"+ i +" port : ");
 			try{
 			s = bufferRead.readLine();
@@ -76,7 +74,7 @@ public class MasterSocket {
 			ioE.printStackTrace();
 			}
 
-			 */
+
 		}
 
        //create worker's socket
