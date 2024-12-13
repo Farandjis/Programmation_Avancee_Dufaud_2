@@ -287,7 +287,7 @@ Les tests suivant ont été effectués sur le PC 12 de la salle E51, voici sa co
 
 Les résultats et le nom de l'image disent d'eux même, ça ne marche pas :<br>
 <br>Attention, les résultats suivant ont été trouvés pour Assignement102 uniquement, aucun calcul n'a été effectué pour Pi.java (les deux colonnes sont Assignement102).<br>
-<img src="img\nul.png" width="800"/>
+<img src="img\pasbon.png" width="800"/>
 
 
 <br><br><br>
