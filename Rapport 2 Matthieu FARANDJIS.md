@@ -43,7 +43,7 @@ L'un des principes fondamentaux de la méthode est qu'une augmentation du nombre
 *Méthode d'après IBM : https://www.ibm.com/fr-fr/topics/monte-carlo-simulation* <br>
 <br><br>
 **Calcul de π par une méthode de MonteCarlo, d'après le TP4 fait en cours**<br>
-Soit l'aire $`A_{\tfrac{1}{4}d}`$ d'un quart de disque de rayon r=1.<br>
+Soit l'aire $`A_{\tfrac{1}{4}d}`$ d'un quart de disque de rayon $`r = 1`$.<br>
 
 $$A_{\tfrac{1}{4}d} =  \frac{\pi r^2}{4} = \frac{\pi}{4}$$
 
@@ -90,16 +90,16 @@ D'où $`\pi \approx 4 \times \frac{n_{cible}}{n_{tot}}`$<br>
 
 ### a) Itération parallèle
 
-L'itération parallèle est aussi appelé parallélisme de boucle et parallélisme itératif.<br>
-Dans un algorithme parallèle, on suppose que le calcul effectué par une unité de calcul est indépendante de celui effectué par une autre unité de calcul.<br>
-L'adjectif "parallèle" attribué à un tel algorithme provient de ce que cela correspond à une architecture de type SIMD (une Seule Instruction, Multiples Données).<br>
+L'itération parallèle est aussi appelée parallélisme de boucle et parallélisme itératif.<br>
+Dans un algorithme parallèle, on suppose que le calcul effectué par une unité de calcul est indépendant de celui effectué par une autre unité de calcul.<br>
+L'adjectif "parallèle" attribué à un tel algorithme provient du fait que cela correspond à une architecture de type SIMD (une Seule Instruction, Plusieurs Données).<br>
 *Source :*
   - *Explications adaptés pour Assigment102 :*<br>
     https://dpt-info.u-strasbg.fr/~cronse/TIDOC/ALGO/parseq.html
 
 
 <br>
-L'algorithme à itération parallèle de la méthode de Monte-Carlo que nous avons étudité est Assigment102.<br>
+L'algorithme à itération parallèle de la méthode de Monte-Carlo que nous avons étudié est Assignment102.<br>
 <br>
 
 Voici un extrait du code d'Assigment102 :<br>
@@ -131,12 +131,11 @@ Voici un extrait du code d'Assigment102 :<br>
 
 ### b) Master-Worker
 
-Le premier algorithme Master-Worker de la méthode de Monte-Carlo que nous avons étudié est Pi.java.
-
-Master créer puis lance des tâches qui, via le paradigme des futures, fait une résolution de dépendance.<br>
+Le premier algorithme Master-Worker de la méthode de Monte-Carlo que nous avons étudié est Pi.java.<br>
+Master crée puis lance des tâches qui, via le paradigme des futures, font une résolution de dépendance.<br>
 <br>
-Pi.java est plus efficace que Assigmnent102, puisque si on créer 500000 tâche, l'OS gère lui-même ce qui prend plus de temps que de faire :
-génération nb aléatoire x, génération nb aléatoire y, test, incrément (~40 cycles).<br>
+Pi.java est plus efficace que Assignment102, puisque si l'on crée 500 000 tâches, l'OS gère lui-même celles-ci, ce qui prend plus de temps que de faire :
+génération nombre aléatoire x, génération nombre aléatoire y, test, incrément (~40 cycles).<br>
 <br><br>
 Il est difficile de montrer un exemple du code calculant Monte-Carlo, mais nous pouvons le visualiser via le code disponible sur ce dépôt.<br>
 <br><br>
@@ -148,8 +147,8 @@ Il est difficile de montrer un exemple du code calculant Monte-Carlo, mais nous 
 
 ### a) Analyse d'Assigment102
 
-Le code d'Assigment102 calcule une valeur approximative de Pi à partir de la méthode de MonteCarlo.<br>
-On y retrouve deux dépendances nouvelles : Atomic integer et Executor.
+Le code de Assignment102 calcule une valeur approximative de 𝜋 à partir de la méthode de Monte-Carlo.<br>
+On y retrouve deux dépendances nouvelles : AtomicInteger et Executor.<br>
 
 - **Atomic Integer :**<br>
   Encapsule une valeur entière qui peut être mise à jour de manière atomique.<br>
@@ -275,21 +274,91 @@ Pour de meilleurs résultats, dans les faits, il faudrait même fermer tous les 
 <br>
 Ensuite nous écrivons à la suite du fichier les données reçu, on sauvegarde et on affiche si tout s'est bien passé ou non.<br>
 
-### b) Analyse
+<br><br>
+Enfin, nous allons traiter ces fichiers via un programme Python afin d'établir un graphique et étudier les résultats.<br>
+Plus précisément, nous allons étudier la scalabilité forte et faible d'Assignment102 et Pi.java sur les critères de temps d'exécution et de speed-up.<br>
 
-Les tests suivant ont été effectués sur le PC 12 de la salle E51, voici sa configuration :<br>
-- Processeur : Intel Core i7-8700 3.20Ghz
-- RAM : 32Go
-- Windows 11 Pro Education 23H2, build : 22631.4037
-- Carte Graphique : Carte vidéo de base Microsoft
-- Attention, les logiciels suivant étaient en arrière plan : Explorateur Windows, IntelliJ, Firefox, NotePad, VisualStudio Code.<br>
-  Cela influe sur les résultats obtenues, nottament sur le temps d'exécution.<br>
+### b) Définitions des termes
+- **Speed-up :**<br>
+  Le speed-up, noté Sp, est le gain de vitesse d’exécution en fonction du nombre de processus P.<br>
+  L'idée est donc de mesurer le gain de performance obtenu en exécutant une tâche sur plusieurs processeurs (ou cœurs) par rapport à un seul processeur.
+- **Temps d'exécution**<br>
+  Le temps d'exécution correspond au temps que demande le programme pour effectuer le calcul de pi.<br>
+  Dans le cas du paradigme Master-Worker, le temps d'exécution correspond au temps des échanges entre le Master et les Workers + le temps que demande les Workers pour calculer + le temps d'assembler un résultat final par Master.
+- **Scalabilité forte :**<br>
+  La scalabilité forte consiste étudier ce qu'il se passe lorsque l'on ajoute des processus pour un problème de taille fixe.
+- **Scalabilité faible :**<br>
+  La scalabilité faible consiste étudier ce qu'il se passe lorsqu l'on augmente simultanément la taille du problème et le nombre de processus.
 
-Les résultats et le nom de l'image disent d'eux même, ça ne marche pas :<br>
-<br>Attention, les résultats suivant ont été trouvés pour Assignement102 uniquement, aucun calcul n'a été effectué pour Pi.java (les deux colonnes sont Assignement102).<br>
-<img src="img\pasbon.png" width="800"/>
+### c) Analyse
+L'objectif de cette étude est de prouver quel est le meilleur paradigme pour calculer Pi à l'aide de la méthode de Monte-Carlo entre Assignment102 et Pi.java.<br>
+<br>
+Pour rappel :
+- Paradigme d'Assignment102 : Itération parallèle
+- Paradigme de Pi.java : Master-Worker
+
+<br><br>
+
+Les tests suivant ont été effectués sur mon ordinateur personnel, voici sa configuration :
+
+- Processeur : Intel Core i5-9400F, 2.90Ghz, 6 Coeurs, 1 Socket
+- RAM : 8Go
+- Windows 10 Home 22H2, build : 19045.5247
+- Carte Graphique : NVIDIA GeForce FTX 1050
+- Attention, certains logiciel fonctionnaient en fond, par ailleurs l'interface graphique de Windows était démarré. Cela influe sur les performances de l'ordinateur.
+
+Résultats obtenus :
+![](img\etude_sca.png)
+
+- **Expérience n°1 en Scalabilité Forte : Est-ce que le temps d’exécution diminue lorsque j’ajoute des processus pour un problème de taille fixe ?**
+  ![](img\etude_sca_e1.png)
+  Nous remarquons que contrairement à Assignment102, pour Pi.java, le temps d'exécution diminue.<br>
+  Cela s'explique par le fait que l'on divise la taille du problème entre les processus. Vu que les processus traite des problèmes de plus en plus petit, c'est très rapide bien qu'ils soient nombreux.<br>
+  En revanche, pour Assignment102, nous donnons un problème de même taille à chaque processus, donc ça ne peut qu'augmenter. Cependant nous remarquons que ça augmente de plus en plus lentement. <br>
+  <br>
+  Pi.java est donc le gagnant de cette expérience.
 
 
+- **Expérience n°2 en Scalabilité Forte : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**
+  ![](img\etude_sca_e2.png)
+
+  La courbe bleu correspond au speed-up idéal en fonction du nombre de processus.<br>
+  Cela signifie que dans l'idéal, si la méthode est parfaitement parallèle, le fait de doubler le nombre de processus divise par deux le temps de calcul. En d'autre terme : il y a une excellente répartiion des ressources.<br>
+  <br>
+  - **Pi.java**<br>
+    Nous remarquons que le speedup suit le speed-up idéal au début lorsque l'on utilise 1 à 4 processus, puis augmente très lentement de 4 à 16 processus avant de stagner.<br>
+    Cela signifie que Pi.java est efficace lorsque l'on utilise un petit nombre de processus.<br>
+    Après cela, on peut déduire que l'interaction de plus en plus importante entre le Master et les Workers fait perdre de l'efficacité au programme. Ce temps de traitement de plusieurs processus par la machine s'appel "overhead", nous en parlons en partie V a).
+  - **Assignment102**<br>
+    C'est la catastrophe ! Même avec plus de processus, le résultat est mauvais : cela tend vers 0.<br>
+    Cela ressemble à une courbe de scalabilité faible (voir expérience n°4), mais c'est bien le résultat de notre expérience en scalabilé forte.<br>
+    On en déduit une très mauvaise répartition de la charge de travail entre les processus, chose que nous avons déjà remarqué dans l'expérience n°1.
+  
+  <br>
+  Par conséquent, Pi.java est de nouveau vainqueur : cet algorithme est plus efficace qu'Assigment102.
+
+
+- **Expérience n°3 en Scalabilité Faible : Est-ce que le temps d’exécution diminue lorsque j’augmente simultanément la taille du problème et le nombre de processus ?**
+  ![](img\etude_sca_e3.png)
+  Nous remarquons que dans les deux cas, le temps d'exécution augmente. Cependant, ici également Pi.java reste le plus effiace : il augmente beaucoup moins vite qu'Assignment102 si l'on se fie à l'axe des ordonnées.<br>
+  Nous remarquons également que c'est une courbe linéaire, ce qui est normal puisque le problème grandi proportionnellement au nombre de processus.<br>
+  Il est a noté que dans le cas de Pi.java, de 1 à 4 processus le temps est constant, ça augmente dès qu'il y a plus de 4 processus.
+  <br>
+  Même lors d'une étude de scalabité faible, Pi.java est mieux qu'Assignment102.
+
+
+- **Expérience n°4 en Scalabilité Faible : Comment les ressources sont utilisés lorsque j’augmente simultanément la taille du problème et le nombre de processus ?**
+  ![](img\etude_sca_e4.png)
+  Notre observation rejoins l'oberservation sur l'expérience n°2 : augmenter le nombre de processus ne permet pas toujours d'avoir un bon speed-up, même si la taille du problème augmente proportionnellement.<br>
+  En effet, comme dans l'expérience n°2, de 1 à 4 la courbe suit le speed-up idéal, après cela le coût des communications entre le Master et les Workers influe trop sur les performances.<br>
+  De même que dans l'expérience n°2, Assignment102 s'effond rapidement.<br>
+  <br>
+  Seulement, je me demande si Pi.java ne stagne pas comme Assignment102 à partir de 128 processus lorsque l'on compare l'allure des deux courbes.
+  <br>
+  La conlusion reste là mêmen Pi.java est mieux qu'Assignment102.<br>
+
+
+A l'issue de ces quatre expérience, la conclusion est sans apppel : le paradigme Master-Worker offre des meilleurs résultats avec la méthode de Monte-Carlo que le paradigme d'itération parallèle.
 <br><br><br>
 
 ## V - Mise en œuvre en mémoire distribuée
