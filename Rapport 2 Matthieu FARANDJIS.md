@@ -153,8 +153,7 @@ On y retrouve deux dépendances nouvelles : AtomicInteger et Executor.<br>
 - **Atomic Integer :**<br>
   Encapsule une valeur entière qui peut être mise à jour de manière atomique.<br>
   C'est-à-dire que toutes les opérations de lecture-modification-écriture sur cette valeur sont effectuées comme une seule unité insécable. Cela garantit la sécurité des threads (thread-safety) sans nécessiter de synchronisation explicite.<br>
-  Un AtomicInteger est utilisé dans les applications telles que les compteurs incrémentés atomiquement et ne peut pas être utilisé comme remplacement d’un java.lang.Integer.<br>
-  <br>
+  Un AtomicInteger est utilisé dans les applications telles que les compteurs incrémentés atomiquement et ne peut pas être utilisé comme remplacement d’un java.lang.Integer.<br>  <br>
   *Sources :*
   - *https://www.jmdoudoux.fr/java/dej/chap-acces_concurrents.htm*
   - *https://learn.microsoft.com/fr-fr/dotnet/api/java.util.concurrent.atomic.atomicinteger?view=net-android-34.0*
@@ -162,37 +161,35 @@ On y retrouve deux dépendances nouvelles : AtomicInteger et Executor.<br>
     <br><br><br>
 - **Executor :**<br>
   L'interface java.util.concurrent.Executor décrit les fonctionnalités permettant l'exécution différée de tâches implémentées sous la forme de Runnable.<br>
-  C’est un support pour les Threads en Java à un plus haut niveau que la classe Thread.<br>
-  Il permet de découpler la soumission des tâches de la mécanique des Threads (Execution, Ordonnancement)<br>
-  On peut ici gérer des pool de Threads. Chaque Thread du pool peut être réutilisé dans un Executor.<br>
+  C’est un support pour les threads en Java à un niveau plus élevé que la classe Thread.<br>
+  Elle permet de découpler la soumission des tâches de la gestion des threads (exécution, ordonnancement).<br>
+  On peut ici gérer des pools de threads. Chaque thread du pool peut être réutilisé dans un Executor.<br>
   L’interface Executor définit la méthode execute.<br>
   <br>
   *Sources :*
   - *https://jmdoudoux.developpez.com/cours/developpons/java/chap-executor.php#executor-1*
   - *Cours de M. DUFAUD : CM4-complement-parallelisation-et-Java.pdf*
 - **Algorithme Workstealing (abordé en cours) :**<br>
-  Le principe de cet algorithme est que chaque worker possède une liste de tâche.<br>
-  Lorsqu'un worker n'en possède plus, plutôt qu'attendre de nouvelles tâches, il va en extraire chez un autre worker.<br>
+  Le principe de cet algorithme est que chaque worker possède une liste de tâches.<br>
+  Lorsqu'un worker n'en possède plus, plutôt que d'attendre de nouvelles tâches, il va en extraire chez un autre worker.<br>
   <br>
-  De telle manière, non seulement chaque worker à peu peut près le même nombre de tâches, mais aussi, on s'assure que les workers soient toujours actif.<br>
-  On garanti donc l'optimisation du fonctionnement du programme.<br>
-  *Sources :*
+  De cette manière, non seulement chaque worker a à peu près le même nombre de tâches, mais on s'assure également que les workers restent toujours actifs.<br>
+  On garantit donc l'optimisation du fonctionnement du programme.<br>*Sources :*
   - https://www.linkedin.com/advice/0/what-benefits-drawbacks-using-work-stealing?lang=fr&originalSubdomain=fr
 - **Les futures :**<br>
-  Paradigme de programmation qui est très pratique, qui permet de définir quand on créer notre tâche le schéma de dépendance entre les tâches.<br>
-  L'idée est de dire que la tâche va envoyer un résultat dans le futur; On ne sait pas quand il va l'envoyer, mais plus loin dans le code on va utliser son code.<br>
-  On dit que la tâche x va envoyer un res y dans le temps. la tâche s'éxecute, on continu le code (d'autres trucs s'exécutent), puis un moment x renvoi le resultat, et on fait un calcul.<br>
-  - le code à ce moment là, pour calculer doit attendre le resultat de x, c'est un point de synchronisation
-
+  Le paradigme de programmation est très pratique car il permet de définir, dès la création de la tâche, le schéma de dépendance entre les tâches.<br>
+  L'idée est de dire que la tâche va envoyer un résultat dans le futur. On ne sait pas quand elle va l'envoyer, mais plus loin dans le code, on va utiliser ce résultat.<br>
+  On dit que la tâche x va envoyer un résultat y dans le temps. La tâche s'exécute, d'autres opérations s'exécutent en parallèle, puis à un moment donné, x renvoie le résultat et un calcul est effectué.<br>
+  - À ce moment-là, pour effectuer le calcul, le code doit attendre le résultat de x, c'est un point de synchronisation.<br>
 <br><br>
 On définit un objet executor qui est un support de thread.<br>
-On va lui dire : tu définie le nombre de threads que tu vas utiliser.<br>
--> il permet de faire l'association entre des tâches et des threads de manière dynamique en fonction de l'exécution des tâches en cours.<br>
--> Il est donc possible d'associer 1000 tâches à 4 threads (au lieu de 1000 tâches = 1000 threads dans le TP mobile, vu qu'on ne pouvait pas utiliser Executor).<br>
-<br>
-===> On utilise désormais la classe Executor, plutôt que la classe Thread.<br>
-Le fait est que les threads en Java présentent de nombreux inconvénients essentiellement liés au fait que cette classe est de bas niveau.<br>
-De ce fait, elle ne propose pas des fonctionnalités tel qu'obtenir un résultat d'exécution d'un thread ou encore attendre la fin d'un ensemble de threads.<br>
+    On va lui dire : tu définis le nombre de threads que tu vas utiliser.<br>
+    -> Il permet de faire l'association entre des tâches et des threads de manière dynamique, en fonction de l'exécution des tâches en cours.<br>
+    -> Il est donc possible d'associer 1000 tâches à 4 threads (au lieu de 1000 tâches = 1000 threads dans le TP mobile, vu qu'on ne pouvait pas utiliser Executor).<br>
+    <br>
+    ===> On utilise désormais la classe Executor, plutôt que la classe Thread.<br>
+    Les threads en Java présentent de nombreux inconvénients, essentiellement liés au fait que cette classe est de bas niveau.<br>
+    De ce fait, elle ne propose pas des fonctionnalités telles que l'obtention d'un résultat d'exécution d'un thread ou encore l'attente de la fin d'un ensemble de threads.<br>
 <br>
 *Sources :*<br>
 *https://jmdoudoux.developpez.com/cours/developpons/java/chap-executor.php#executor-1*
@@ -223,7 +220,10 @@ Voici un diagramme UML d'Assigment102 :<br>
 
 **Paradigme de Pi.java :** Master Worker
 
-On a un Master qui va créer puis lancer des tâches qui via le paradigme des futures fait une résolution de dépendance.<br>
+
+Voici la version corrigée de ton texte :
+
+On a un Master qui va créer puis lancer des tâches qui, via le paradigme des futures, effectuent une résolution de dépendance.<br>
 <br><br>
 
 Voici un schéma montrant l'interraction entre 1 Master et 3 Workers : <br>
@@ -233,13 +233,13 @@ Voici un schéma montrant l'interraction entre 1 Master et 3 Workers : <br>
 
 
 <br><br>
-Pi.java est plus efficace que Assigmnent102, puisque si on créer 500000 tâche, l'OS gère lui-même ce qui prend plus de temps que de faire :
-génération nb aléatoire x, génération nb aléatoire y, test, incrément (~40 cycles).<br>
+Pi.java est plus efficace que Assignment102, puisque si l'on crée 500 000 tâches, l'OS gère lui-même celles-ci, ce qui prend plus de temps que de faire :
+génération du nombre aléatoire x, génération du nombre aléatoire y, test, incrément (~40 cycles).<br>
 <br><br>
 **Quelques annotations sur le code :**<br>
 - **Executors.newFixedThreadPool(numWorkers)**
-  - Renvoyer une instance de type ExecutorService qui utilise un pool de threads dont la taille est fixe. Les tâches à exécuter sont stockées dans une queue
-    <br><br>
+  - Renvoie une instance de type ExecutorService qui utilise un pool de threads dont la taille est fixe. Les tâches à exécuter sont stockées dans une queue.
+<br><br>
 
 Voici un diagramme UML de Pi.java :<br>
 <img src="img/uml_pi.java.png" width="600"/><br>
@@ -254,25 +254,27 @@ Voici un diagramme UML de Pi.java :<br>
 
 ### a) Mise en place
 
-De prime abord, Assigment102 et Pi.java affiche les résultarts de manière différente. Afin de mieux comparer et étudiier leurs efficacités, nous avons du uniformiser les sorties.<br>
-C'est à dire s'assurer que chaque code affiche/renvoie la même chose.<br>
+
+Voici la version corrigée et améliorée de ton texte :
+
+De prime abord, Assignment102 et Pi.java affichent les résultats de manière différente. Afin de mieux comparer et étudier leurs efficacités, nous avons dû uniformiser les sorties.<br>
+C'est-à-dire s'assurer que chaque code affiche/renvoie la même chose.<br>
 <br><br>
-Ainsi les prints ci-dessous sont dans le même format que ce soit dans Assigment102 ou Pi.java.<br>
+Ainsi, les prints ci-dessous sont dans le même format, que ce soit dans Assignment102 ou Pi.java.<br>
 
 <img src="img\uni_sorties.png" width="1000"/><br>
-**Code de Pi.java**
-
+Code de Pi.java
 <br><br>
-Pour traiter ces informations et facilité l'automatisation du lancement de plusieurs fois d'affiler le code, nous allons sauvegarder ces informations dans un document.<br>
-Pour cela on va créer une classe WriteToFile  :<br>
-<img src="img\wtf.png" width="600"/>
+Pour traiter ces informations et faciliter l'automatisation du lancement du code plusieurs fois d'affilée, nous allons sauvegarder ces informations dans un document.<br>
+Pour cela, nous allons créer une classe WriteToFile :<br>
+<img src="img\wtf.png" width="600"/><br>
 <br><br>
-Comme nous pouvons le voir, on créer en premier un nom à notre fichier.<br>
-Nous indiquons le jour du test, ainsi que la machine sur lequel on teste (grâce à `InetAddress.getLocalHost()`), sachant que le nom de chaque machine de l'IUT correspond à la salle et à sa position dans la salle.<br>
-C'est indispensable car les résultats peuvent variés d'une machine à l'autre.<br>
-Pour de meilleurs résultats, dans les faits, il faudrait même fermer tous les logiciels ouvert, voir même utiliser le terminal plutôt qu'IntelliJ et dans l'idéal, ne pas d'utiliser l'interface graphique Windows.<br>
+Comme nous pouvons le voir, nous créons en premier un nom pour notre fichier.<br>
+Nous indiquons le jour du test, ainsi que la machine sur laquelle nous testons (grâce à InetAddress.getLocalHost()), sachant que le nom de chaque machine de l'IUT correspond à la salle et à sa position dans la salle.<br>
+C'est indispensable car les résultats peuvent varier d'une machine à l'autre.<br>
+Pour de meilleurs résultats, dans les faits, il faudrait même fermer tous les logiciels ouverts, voire même utiliser le terminal plutôt qu'IntelliJ et, dans l'idéal, ne pas utiliser l'interface graphique de Windows.<br>
 <br>
-Ensuite nous écrivons à la suite du fichier les données reçu, on sauvegarde et on affiche si tout s'est bien passé ou non.<br>
+Ensuite, nous écrivons à la suite du fichier les données reçues, nous sauvegardons et affichons si tout s'est bien passé ou non.<br>
 
 <br><br>
 Enfin, nous allons traiter ces fichiers via un programme Python afin d'établir un graphique et étudier les résultats.<br>
@@ -283,15 +285,15 @@ Plus précisément, nous allons étudier la scalabilité forte et faible d'Assig
   Le speed-up, noté Sp, est le gain de vitesse d’exécution en fonction du nombre de processus P.<br>
   L'idée est donc de mesurer le gain de performance obtenu en exécutant une tâche sur plusieurs processeurs (ou cœurs) par rapport à un seul processeur.
 - **Temps d'exécution**<br>
-  Le temps d'exécution correspond au temps que demande le programme pour effectuer le calcul de pi.<br>
-  Dans le cas du paradigme Master-Worker, le temps d'exécution correspond au temps des échanges entre le Master et les Workers + le temps que demande les Workers pour calculer + le temps d'assembler un résultat final par Master.
+  Le temps d'exécution correspond au temps que demande le programme pour effectuer le calcul de π.<br>
+  Dans le cas du paradigme Master-Worker, le temps d'exécution correspond au temps des échanges entre le Master et les Workers, au temps que demandent les Workers pour calculer, ainsi qu'au temps nécessaire pour assembler le résultat final par le Master.
 - **Scalabilité forte :**<br>
-  La scalabilité forte consiste étudier ce qu'il se passe lorsque l'on ajoute des processus pour un problème de taille fixe.
+  La scalabilité forte consiste à étudier ce qu'il se passe lorsque l'on ajoute des processus pour un problème de taille fixe.
 - **Scalabilité faible :**<br>
-  La scalabilité faible consiste étudier ce qu'il se passe lorsqu l'on augmente simultanément la taille du problème et le nombre de processus.
+  La scalabilité faible consiste à étudier ce qu'il se passe lorsqu'on augmente simultanément la taille du problème et le nombre de processus.
 
 ### c) Analyse
-L'objectif de cette étude est de prouver quel est le meilleur paradigme pour calculer Pi à l'aide de la méthode de Monte-Carlo entre Assignment102 et Pi.java.<br>
+L'objectif de cette étude est de prouver quel est le meilleur paradigme pour calculer π à l'aide de la méthode de Monte-Carlo, entre Assignment102 et Pi.java.<br>
 <br>
 Pour rappel :
 - Paradigme d'Assignment102 : Itération parallèle
