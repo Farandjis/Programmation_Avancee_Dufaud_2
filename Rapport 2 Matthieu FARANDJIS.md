@@ -294,6 +294,7 @@ Plus précisément, nous allons étudier la scalabilité forte et faible d'Assig
 
 ### c) Analyse
 L'objectif de cette étude est de prouver quel est le meilleur paradigme pour calculer π à l'aide de la méthode de Monte-Carlo, entre Assignment102 et Pi.java.<br>
+Nous étudons donc l'efficiency des programmes : quel est le programme le plus efficace en terme de temps, d'utilisation des ressources et de marge d'erreur.<br>
 <br>
 Pour rappel :
 - Paradigme d'Assignment102 : Itération parallèle
@@ -363,6 +364,22 @@ Résultats obtenus :
 A l'issue de ces quatre expérience, la conclusion est sans apppel : le paradigme Master-Worker offre des meilleurs résultats avec la méthode de Monte-Carlo que le paradigme d'itération parallèle.
 <br><br><br>
 
+
+### d) Etude de l'effictiveness de Pi.java
+
+Nous allons étudier l'effictiveness de Pi.java, c'est-à-dire sa capacité à résoudre le problème parfaitement sur le critère suivant :<br>
+
+- Est ce que Pi.java permet de calculer le nombre Pi sur $`10^{-3}`$ ?
+
+D'après les résultats récupérés, que ce soit en scalabilité forte ou faible, plus il y a de processus, plus, étonnament, Pi se rapproche de 0.<br>
+Les points à vérier sont :
+
+- Est ce que les nombres aléatoires générés par les processus sont bien unique ?
+  - Le cas échéants, les nombres générés sont dépendant entre les processus, ce qui mène à l'échec notre recherche : nous calculons la même chose.
+- Est ce que le programme contient un bug ?
+  - Dans un tel cas, nous devrons vérifier le programme mathématiquement.
+  
+
 ## V - Mise en œuvre en mémoire distribuée
 
 ### a) (Analyse) JavaSocket
@@ -414,3 +431,13 @@ Si nous l'exécutons sur plusieurs machine, cela correspondrais à ça :
 <img src="img\schema_dufaud_1M_3W_1M_sur_plusieurs_pc.png" width="600"/><br>
 
 ## VI - Test de performance Master-Worker distribuée
+
+Les deux expériences suivante ont été menés en salle G24 le Vendredi 13 Décembre 2024.<br>
+12 ordinateurs à droite ont été utilisés en tant que Worker, 1 ordinateur à gauche a été utilisé en tant que Master.<br>
+<br>
+- **Expérience n°1 en Scalabilité Forte : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**
+  <img src=""><br>
+
+
+- **Expérience n°2 en Scalabilité Faible : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**
+  <img src=""><br>
