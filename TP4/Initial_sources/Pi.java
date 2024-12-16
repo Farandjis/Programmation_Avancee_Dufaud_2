@@ -1,7 +1,9 @@
 import external.WriteToFile;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -17,10 +19,33 @@ public class Pi
 {
     public static void main(String[] args) throws Exception 
     {
-	long total=0;
-	// 10 workers, 50000 iterations each
-	total = new Master().doRun(50000, 10); // correspond au 2e pseudo code que l'on devait écrire
-	System.out.println("total from Master = " + total);
+		long total=0;
+		final int[] listNumWorkers = {1, 2, 4, 8 , 16, 32, 64};
+		int totalCountParDefaut = 15000000;
+		int tour = 50;
+		String time = String.format("%02d%02d%02d", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
+		WriteToFile.writeToFileWithSuffix(time + "_Pi-java", "Error,Npoint,Pi,Nlance,tempsMilis,Nproc");
+
+
+
+		// POUR SCALABILITÉ FORTE ======================================================================================
+		for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
+			for (int nbTour = 0; nbTour < tour; nbTour++) {
+				total = new Master().doRun(totalCountParDefaut, listNumWorkers[nbNWorker], nbTour, time);
+				// System.out.println("total from Master = " + total);
+			}
+		}
+
+
+		totalCountParDefaut = 1000000;
+		tour = 50;
+		// POUR SCALABILITÉ FAIBLE ======================================================================================
+		for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
+			for (int nbTour = 0; nbTour < tour; nbTour++) {
+				total = new Master().doRun(totalCountParDefaut*listNumWorkers[nbNWorker], listNumWorkers[nbNWorker], nbTour, time);
+			}
+		}
+
     }
 }
 
@@ -29,7 +54,7 @@ public class Pi
  * and aggregates the results.
  */
 class Master {
-    public long doRun(int totalCount, int numWorkers) throws InterruptedException, ExecutionException 
+    public long doRun(int totalCount, int numWorkers, int nbTour, String timeWTF) throws InterruptedException, ExecutionException
     {
 
 	long startTime = System.currentTimeMillis(); // pour mesurer le temps
@@ -38,7 +63,7 @@ class Master {
 	List<Callable<Long>> tasks = new ArrayList<Callable<Long>>();
 	for (int i = 0; i < numWorkers; ++i) 
 	    {
-		tasks.add(new Worker(totalCount)); // Ajoute des nouveaux Worker à notre tableau de tâche (nb workers = nb tâches)
+		tasks.add(new Worker(totalCount / numWorkers)); // Ajoute des nouveaux Worker à notre tableau de tâche (nb workers = nb tâches)
 	    }
     
 	// Run them and receive a collection of Futures
@@ -68,9 +93,8 @@ class Master {
 
 	System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
 
-	String result = pi + ", " + String.format("%.10e",(Math.abs((pi - Math.PI)) / Math.PI)) + ", " + totalCount * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
-	WriteToFile.writeToFileWithSuffix("Pi", result);
-
+	String result = String.format(Locale.US, "%.10e", (Math.abs((pi - Math.PI)) / Math.PI)) + "," + totalCount + "," + pi + "," + nbTour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
+	WriteToFile.writeToFileWithSuffix(timeWTF + "_Pi-java", result);
 	System.out.println(result);
 
 	exec.shutdown();

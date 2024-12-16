@@ -43,40 +43,73 @@ public class Assignment102 {
 	public static void main(String[] args) {
 		// int totalCount = 50000;
 		// int numWorkers = 20;
-		final int[] listNumWorkers = {1, 2, 4, 8}; // , 16, 32
-		final int[] listTotalCount = {12000000};
-		final int tour = 10;
+		final int[] listNumWorkers = {1, 2, 4, 8, 16, 32, 64};
+		int totalCountParDefaut = 15000000;
+		int tour = 50;
 		String time = String.format("%02d%02d%02d", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
 		WriteToFile.writeToFileWithSuffix(time + "_Assigment102", "Error,Npoint,Pi,Nlance,tempsMilis,Nproc");
-		for (int nbTC = 0; nbTC < listTotalCount.length; nbTC++) {
-			for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
-				for (int nbTour = 0; nbTour < tour; nbTour++) {
-
-					int numWorkers = listNumWorkers[nbNWorker];
-					PiMonteCarlo PiVal = new PiMonteCarlo(listTotalCount[nbTC]); // On instancie MonteCarlo il fait 100 000
-					long startTime = System.currentTimeMillis(); // On règle un timer
-					double value = PiVal.getPi(numWorkers); // on lance le code parallèle (c'est getPi())
-					long stopTime = System.currentTimeMillis(); // on mesure le temps à la sortie
 
 
-					System.out.println("\nPi : " + value);
-					System.out.println("Error: " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "\n");
 
-					System.out.println("Ntot: " + listTotalCount[nbTC] * numWorkers);
-					System.out.println("Available processors: " + numWorkers);
-					System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
+		// POUR SCALABILITÉ FORTE ======================================================================================
+		for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
+			for (int nbTour = 0; nbTour < tour; nbTour++) {
 
-					System.out.println((Math.abs((value - Math.PI)) / Math.PI) + " " + listTotalCount[nbTC] * numWorkers + " " + numWorkers + " " + (stopTime - startTime));
+				int numWorkers = listNumWorkers[nbNWorker];
+				PiMonteCarlo PiVal = new PiMonteCarlo(totalCountParDefaut); // On instancie MonteCarlo
+				long startTime = System.currentTimeMillis(); // On règle un timer
+				double value = PiVal.getPi(numWorkers); // on lance le code parallèle (c'est getPi())
+				long stopTime = System.currentTimeMillis(); // on mesure le temps à la sortie
 
 
-					// String result = value + ", " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + ", " + listTotalCount[nbTC] * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
-					String result = String.format(Locale.US, "%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "," + listTotalCount[nbTC] * numWorkers + "," + value + "," + tour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
-					WriteToFile.writeToFileWithSuffix(time + "_Assigment102", result);
-					System.out.println(result);
-				}
+				System.out.println("\nPi : " + value);
+				System.out.println("Error: " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "\n");
+
+				System.out.println("Ntot: " + totalCountParDefaut * numWorkers);
+				System.out.println("Available processors: " + numWorkers);
+				System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
+
+				System.out.println((Math.abs((value - Math.PI)) / Math.PI) + " " + totalCountParDefaut + " " + numWorkers + " " + (stopTime - startTime));
+
+
+				// String result = value + ", " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + ", " + listTotalCount[nbTC] * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
+				String result = String.format(Locale.US, "%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "," + totalCountParDefaut + "," + value + "," + nbTour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
+				WriteToFile.writeToFileWithSuffix(time + "_Assigment102", result);
+				System.out.println(result);
 			}
-
 		}
+
+		totalCountParDefaut = 1000000;
+		tour = 50;
+		// POUR SCALABILITÉ FAIBLE ======================================================================================
+		for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
+			for (int nbTour = 0; nbTour < tour; nbTour++) {
+
+				int numWorkers = listNumWorkers[nbNWorker];
+				PiMonteCarlo PiVal = new PiMonteCarlo(totalCountParDefaut*numWorkers); // On instancie MonteCarlo il fait 100 000
+				long startTime = System.currentTimeMillis(); // On règle un timer
+				double value = PiVal.getPi(numWorkers); // on lance le code parallèle (c'est getPi())
+				long stopTime = System.currentTimeMillis(); // on mesure le temps à la sortie
+
+
+				System.out.println("\nPi : " + value);
+				System.out.println("Error: " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "\n");
+
+				System.out.println("Ntot: " + totalCountParDefaut* numWorkers);
+				System.out.println("Available processors: " + numWorkers);
+				System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
+
+				System.out.println((Math.abs((value - Math.PI)) / Math.PI) + " " + totalCountParDefaut * numWorkers + " " + numWorkers + " " + (stopTime - startTime));
+
+
+				// String result = value + ", " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + ", " + listTotalCount[nbTC] * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
+				String result = String.format(Locale.US, "%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "," + totalCountParDefaut * numWorkers + "," + value + "," + nbTour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
+				WriteToFile.writeToFileWithSuffix(time + "_Assigment102", result);
+				System.out.println(result);
+			}
+		}
+
+
 		/*
 		System.out.println("Approx value:" + value); // affichage blablabla
 		System.out.println("Difference to exact value of pi: " + (value - Math.PI));

@@ -5,7 +5,7 @@ file_path1 = 'pi.txt'
 file_path2 = 'assignement102.txt'
 
 def faible_speedup(ax, df):
-    df_filtered = df[df['Npoint'] != 12000000]
+    df_filtered = df[df['Npoint'] != 15000000]
     df_filtered['tempsMilis'] = df_filtered['tempsMilis'].astype(int)
     df_filtered['Nproc'] = df_filtered['Nproc'].astype(int)
 
@@ -24,7 +24,7 @@ def faible_speedup(ax, df):
 
 
 def forte_speedup(ax, df):
-    df_filtered = df[df['Npoint'] == "12000000"]
+    df_filtered = df[df['Npoint'] == "15000000"]
 
     df_filtered['tempsMilis'] = df_filtered['tempsMilis'].astype(int)
     df_filtered['Nproc'] = df_filtered['Nproc'].astype(int)
@@ -43,7 +43,7 @@ def forte_speedup(ax, df):
     ax.grid(True)
 
 def forte(ax, df):
-    df_filtered = df[df['Npoint'] == "12000000"]
+    df_filtered = df[df['Npoint'] == "15000000"]
     print(df_filtered)
 
     df_filtered['tempsMilis'] = df_filtered['tempsMilis'].astype(int)
@@ -58,7 +58,7 @@ def forte(ax, df):
     ax.grid(True)
 
 def faible(ax, df):
-    df_filtered = df[df['Npoint'] != 12000000]
+    df_filtered = df[df['Npoint'] != 15000000]
     print(df_filtered)
 
     df_filtered['tempsMilis'] = df_filtered['tempsMilis'].astype(int)
