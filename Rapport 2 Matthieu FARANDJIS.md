@@ -423,11 +423,15 @@ Dans la colonne "OK", nous indiquons le nombre de fois où nous obtenons 3,141 c
 <br><br>
 Dans le cas de la scalablité forte, majoritairement l'algorithme trouve 3,141. On est à 6 à 8 ratés pour 25 tentatives au total soit un taux de succès de 72% en moyenne. L'ajout de processus supplémentaire n'améliore pas le résultat<br>
 Dans le cas de la scalabilité faible en revanche, plus il y a de processus mieux nous trouvons 3,141 ! Le résultat est catastrophique pour Nproc = 1 et excellent pour Nproc = 64.<br>
+Cela correspond à ce qu'on a vu comme résultat à l'expérience n°5.<br>
 <br>
-En conclusion, pour calculer 3,141 l'effictiveness de Pi.java est excellente à partir de 64Nproc pour totalCount = 64M dans le cas de la scalabilité faible.<br>
+En conclusion, pour calculer 3,141 l'effictiveness de Pi.java est excellente à partir de Nproc = 64 pour totalCount = 64M dans le cas de la scalabilité faible.<br>
+Il vaut donc mieux utiliser Pi.java en scalabilité faible qu'en scalabité forte.<br>
 
 
 ### d) Etude de la Satisfaction de Pi.java
+Maintenant, nous allons vérifier que Pi.java correspond bien à nos attentes en tant que client.<br>
+<br>
 - **Usefulness :**<br>
 - **Trust :**<br>
   NB : dire si le générateur de nb aléatoire génère bien des nombres aléatoire indépendant entre chaque processus.
