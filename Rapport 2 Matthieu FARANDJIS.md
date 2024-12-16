@@ -313,7 +313,7 @@ Résultats obtenus :
 <img src="img\etude_sca.png"><br>
 
 - **Expérience n°1 en Scalabilité Forte : Est-ce que le temps d’exécution diminue lorsque j’ajoute des processus pour un problème de taille fixe ?**
-  ![](img\etude_sca_e1.png)
+  <img src="img\etude_sca_e1.png"><br>
   Nous remarquons que contrairement à Assignment102, pour Pi.java, le temps d'exécution diminue.<br>
   Cela s'explique par le fait que l'on divise la taille du problème entre les processus. Vu que les processus traite des problèmes de plus en plus petit, c'est très rapide bien qu'ils soient nombreux.<br>
   En revanche, pour Assignment102, nous donnons un problème de même taille à chaque processus, donc ça ne peut qu'augmenter. Cependant nous remarquons que ça augmente de plus en plus lentement. <br>
@@ -399,7 +399,7 @@ On aurait pu directement l'intégrer au code, seulement celui-ci serait moins ma
 Ici on sait ce qu'il a précisément besoin et ce qu'il doit renvoyer, faire.<br>
 <br>
 <img src="img\permettraDeCalculerPi.png" width="350"/><br>
-<img src="img\whileWorker.png" width="900"/>
+<img src="img\whileWorker.png" width="900"processus/>
 
 <br>**Pour lancer et changer de port :**
 - **Lancer sur le port 25545 :**<br>
@@ -411,6 +411,6 @@ Ici on sait ce qu'il a précisément besoin et ce qu'il doit renvoyer, faire.<br
 <br><br>
 Si nous exécutons nos programmes sur une seule machine, la répartition des Worker + Master correspond au schéma du III - b).<br>
 Si nous l'exécutons sur plusieurs machine, cela correspondrais à ça :
-<img src="img\schema_dufaud_1M_3W_1M.png_sur_plusieurs_pc" width="600"/><br>
+<img src="img\schema_dufaud_1M_3W_1M_sur_plusieurs_pc.png" width="600"/><br>
 
 ## VI - Test de performance Master-Worker distribuée
