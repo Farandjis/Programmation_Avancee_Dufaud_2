@@ -310,7 +310,7 @@ Les tests suivant ont été effectués sur mon ordinateur personnel, voici sa co
 - Attention, certains logiciel fonctionnaient en fond, par ailleurs l'interface graphique de Windows était démarré. Cela influe sur les performances de l'ordinateur.
 
 Résultats obtenus :
-![](img\etude_sca.png)
+<img src="img\etude_sca.png"><br>
 
 - **Expérience n°1 en Scalabilité Forte : Est-ce que le temps d’exécution diminue lorsque j’ajoute des processus pour un problème de taille fixe ?**
   ![](img\etude_sca_e1.png)
@@ -322,7 +322,7 @@ Résultats obtenus :
 
 
 - **Expérience n°2 en Scalabilité Forte : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**
-  ![](img\etude_sca_e2.png)
+  <img src="img\etude_sca_e2.png"><br>
 
   La courbe bleu correspond au speed-up idéal en fonction du nombre de processus.<br>
   Cela signifie que dans l'idéal, si la méthode est parfaitement parallèle, le fait de doubler le nombre de processus divise par deux le temps de calcul. En d'autre terme : il y a une excellente répartiion des ressources.<br>
@@ -341,7 +341,7 @@ Résultats obtenus :
 
 
 - **Expérience n°3 en Scalabilité Faible : Est-ce que le temps d’exécution diminue lorsque j’augmente simultanément la taille du problème et le nombre de processus ?**
-  ![](img\etude_sca_e3.png)
+  <img src="img\etude_sca_e3.png"><br>
   Nous remarquons que dans les deux cas, le temps d'exécution augmente. Cependant, ici également Pi.java reste le plus effiace : il augmente beaucoup moins vite qu'Assignment102 si l'on se fie à l'axe des ordonnées.<br>
   Nous remarquons également que c'est une courbe linéaire, ce qui est normal puisque le problème grandi proportionnellement au nombre de processus.<br>
   Il est a noté que dans le cas de Pi.java, de 1 à 4 processus le temps est constant, ça augmente dès qu'il y a plus de 4 processus.
@@ -350,7 +350,7 @@ Résultats obtenus :
 
 
 - **Expérience n°4 en Scalabilité Faible : Comment les ressources sont utilisés lorsque j’augmente simultanément la taille du problème et le nombre de processus ?**
-  ![](img\etude_sca_e4.png)
+  <img src="img\etude_sca_e4.png"><br>
   Notre observation rejoins l'oberservation sur l'expérience n°2 : augmenter le nombre de processus ne permet pas toujours d'avoir un bon speed-up, même si la taille du problème augmente proportionnellement.<br>
   En effet, comme dans l'expérience n°2, de 1 à 4 la courbe suit le speed-up idéal, après cela le coût des communications entre le Master et les Workers influe trop sur les performances.<br>
   De même que dans l'expérience n°2, Assignment102 s'effond rapidement.<br>
