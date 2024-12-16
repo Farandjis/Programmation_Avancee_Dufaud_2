@@ -22,7 +22,7 @@ public class Pi
 		long total=0;
 		final int[] listNumWorkers = {1, 2, 4, 8 , 16, 32, 64};
 		int totalCountParDefaut = 15000000;
-		int tour = 50;
+		int tour = 25;
 		String time = String.format("%02d%02d%02d", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
 		WriteToFile.writeToFileWithSuffix(time + "_Pi-java", "Error,Npoint,Pi,Nlance,tempsMilis,Nproc");
 
@@ -31,18 +31,18 @@ public class Pi
 		// POUR SCALABILITÉ FORTE ======================================================================================
 		for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
 			for (int nbTour = 0; nbTour < tour; nbTour++) {
-				total = new Master().doRun(totalCountParDefaut, listNumWorkers[nbNWorker], nbTour, time);
+				total = new Master().doRun(totalCountParDefaut / listNumWorkers[nbNWorker], listNumWorkers[nbNWorker], nbTour, time, totalCountParDefaut);
 				// System.out.println("total from Master = " + total);
 			}
 		}
 
 
 		totalCountParDefaut = 1000000;
-		tour = 50;
+		tour = 25;
 		// POUR SCALABILITÉ FAIBLE ======================================================================================
 		for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
 			for (int nbTour = 0; nbTour < tour; nbTour++) {
-				total = new Master().doRun(totalCountParDefaut*listNumWorkers[nbNWorker], listNumWorkers[nbNWorker], nbTour, time);
+				total = new Master().doRun(totalCountParDefaut, listNumWorkers[nbNWorker], nbTour, time, totalCountParDefaut*listNumWorkers[nbNWorker]);
 			}
 		}
 
@@ -54,7 +54,7 @@ public class Pi
  * and aggregates the results.
  */
 class Master {
-    public long doRun(int totalCount, int numWorkers, int nbTour, String timeWTF) throws InterruptedException, ExecutionException
+    public long doRun(int totalCount, int numWorkers, int nbTour, String timeWTF, int totalCountParDefaut) throws InterruptedException, ExecutionException
     {
 
 	long startTime = System.currentTimeMillis(); // pour mesurer le temps
@@ -63,7 +63,7 @@ class Master {
 	List<Callable<Long>> tasks = new ArrayList<Callable<Long>>();
 	for (int i = 0; i < numWorkers; ++i) 
 	    {
-		tasks.add(new Worker(totalCount / numWorkers)); // Ajoute des nouveaux Worker à notre tableau de tâche (nb workers = nb tâches)
+		tasks.add(new Worker(totalCount)); // Ajoute des nouveaux Worker à notre tableau de tâche (nb workers = nb tâches)
 	    }
     
 	// Run them and receive a collection of Futures
@@ -93,7 +93,7 @@ class Master {
 
 	System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
 
-	String result = String.format(Locale.US, "%.10e", (Math.abs((pi - Math.PI)) / Math.PI)) + "," + totalCount + "," + pi + "," + nbTour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
+	String result = String.format(Locale.US, "%.10e", (Math.abs((pi - Math.PI)) / Math.PI)) + "," + totalCountParDefaut + "," + pi + "," + nbTour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
 	WriteToFile.writeToFileWithSuffix(timeWTF + "_Pi-java", result);
 	System.out.println(result);
 

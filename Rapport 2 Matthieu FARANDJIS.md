@@ -292,7 +292,7 @@ Plus précisément, nous allons étudier la scalabilité forte et faible d'Assig
 - **Scalabilité faible :**<br>
   La scalabilité faible consiste à étudier ce qu'il se passe lorsqu'on augmente simultanément la taille du problème et le nombre de processus.
 
-### c) Analyse
+### c) Analyse : Etude de l'efficiency
 L'objectif de cette étude est de prouver quel est le meilleur paradigme pour calculer π à l'aide de la méthode de Monte-Carlo, entre Assignment102 et Pi.java.<br>
 Nous étudons donc l'efficiency des programmes : quel est le programme le plus efficace en terme de temps, d'utilisation des ressources et de marge d'erreur.<br>
 <br>
@@ -309,6 +309,7 @@ Les tests suivant ont été effectués sur mon ordinateur personnel, voici sa co
 - Windows 10 Home 22H2, build : 19045.5247
 - Carte Graphique : NVIDIA GeForce FTX 1050
 - Attention, certains logiciel fonctionnaient en fond, par ailleurs l'interface graphique de Windows était démarré. Cela influe sur les performances de l'ordinateur.
+- **Remarque : les courbes obtenues sont semblable à ceux obtenus sur les PC en salle G24. Les tableaux sont différents cependant.**
 
 Résultats obtenus :
 <img src="img\etude_sca.png"><br>
@@ -340,7 +341,6 @@ Résultats obtenus :
   <br>
   Par conséquent, Pi.java est de nouveau vainqueur : cet algorithme est plus efficace qu'Assigment102.
 
-
 - **Expérience n°3 en Scalabilité Faible : Est-ce que le temps d’exécution diminue lorsque j’augmente simultanément la taille du problème et le nombre de processus ?**
   <img src="img\etude_sca_e3.png"><br>
   Nous remarquons que dans les deux cas, le temps d'exécution augmente. Cependant, ici également Pi.java reste le plus effiace : il augmente beaucoup moins vite qu'Assignment102 si l'on se fie à l'axe des ordonnées.<br>
@@ -361,24 +361,79 @@ Résultats obtenus :
   La conlusion reste là mêmen Pi.java est mieux qu'Assignment102.<br>
 
 
-A l'issue de ces quatre expérience, la conclusion est sans apppel : le paradigme Master-Worker offre des meilleurs résultats avec la méthode de Monte-Carlo que le paradigme d'itération parallèle.
+A l'issue de ces quatre expérience, la conclusion est sans apppel : le paradigme Master-Worker offre des meilleurs résultats avec la méthode de Monte-Carlo que le paradigme d'itération parallèle.<br>
+A partir de là, nous pouvons étudier les taux d'erreur de Pi.java sous la forme d'une expérience n°5.<br>
+
+- **Expérience n°5 : Taux d'erreurs par rapport au nombre de points calculés par Pi.java**
+  <img src="img\etude_sca_e5.png"><br>
+  <br>
+  Légende :
+  - Points rouges : Représente le taux d'erreur "Error" pour chaque calcul, c'est-à-dire chaque ligne du fichier pi.txt
+  - Points noir : Représente la médiane des taux d'erreurs 
+  - ordonnée : le taux d'erreur
+  - abscisse : Le nombre de processus Nproc en millions (donc 1M = 1000000)
+  
+  Nous remarquons que lors de notre étude de la scalabilité faible, plus il y avait de points totaux (totalCount), plus l'algorithme est fiable.<br>
+  Il est a noté que chaque processus calcul "totalCount / nbProcessus", cela signifie dans notre cas que peu importe le nombre de processus, chaque processus calcul Pi pour totalCount = 1000000.<br>
+  Seulement, à la fin, cela fait bien 1M * nbProcessus, ce que nous représentons en abscisse dans le graphique.<br>
+  <br>
+  Il faut bien comprendre qu'on réparti le totalCount d'origine entre les processus en amont de l'attribution de la valeur au Worker lors de sa création. Sinon, le calcul de pi est faux (on aurait fait deux fois une division par nbProcessus).<br>
+
 <br><br><br>
 
 
 ### d) Etude de l'effictiveness de Pi.java
 
-Nous allons étudier l'effictiveness de Pi.java, c'est-à-dire sa capacité à résoudre le problème parfaitement sur le critère suivant :<br>
+Même si Pi.java est performant et que sont taux d'erreur diminue plus on augmente le totalCount... Quand est-il de son efficitiveness ?
+Nous allons donc étudier l'effictiveness de Pi.java, c'est-à-dire sa capacité à résoudre le problème parfaitement sur le critère suivant :<br>
+<br>
+**Est ce que Pi.java permet de calculer le nombre Pi sur $`10^{-3}`$ ?**
+<br>
+La valeur de Pi pour $`10^{-3}`$ est : **3,141**<br>
+Nous allons donc vérifier si lors de nos calculs, Pi.java renvoie bien cette valeur. Nous tiendrons uniquement compte des 3 premiers chiffres après la virgule.<br>
+<br>
+Le tableau ci-dessous correspond au bilan de la vérification depuis le fichier pi.txt.<br>
+Dans la colonne "OK", nous indiquons le nombre de fois où nous obtenons 3,141 comme valeur. Il est de même pour "HS", dans le cas où le résultat est invalide.<br>
+<br>
+**Scalablité Forte**
 
-- Est ce que Pi.java permet de calculer le nombre Pi sur $`10^{-3}`$ ?
+| Nlance | Nproc | OK    | HS    |
+|--------|-------|-------|-------|
+| 15M    | 1     | 19/25 | 06/25 |
+| 15M    | 2     | 19/25 | 06/25 |
+| 15M    | 4     | 17/25 | 08/25 |
+| 15M    | 8     | 18/25 | 07/25 |
+| 15M    | 16    | 18/25 | 07/25 |
+| 15M    | 32    | 17/25 | 08/25 |
+| 15M    | 64    | 18/25 | 07/25 |
 
-D'après les résultats récupérés, que ce soit en scalabilité forte ou faible, plus il y a de processus, plus, étonnament, Pi se rapproche de 0.<br>
-Les points à vérier sont :
+**Scalablité faible**
 
-- Est ce que les nombres aléatoires générés par les processus sont bien unique ?
-  - Le cas échéants, les nombres générés sont dépendant entre les processus, ce qui mène à l'échec notre recherche : nous calculons la même chose.
-- Est ce que le programme contient un bug ?
-  - Dans un tel cas, nous devrons vérifier le programme mathématiquement.
-  
+| Nlance | Nproc | OK    | HS    |
+|--------|-------|-------|-------|
+| 1M     | 1     | 8/25  | 17/25 |
+| 2M     | 2     | 12/25 | 13/25 |
+| 4M     | 4     | 14/25 | 11/25 |
+| 8M     | 8     | 17/25 | 08/25 |
+| 16M    | 16    | 22/25 | 03/25 |
+| 32M    | 32    | 24/25 | 01/25 |
+| 64M    | 64    | 25/25 | 00/25 |
+
+
+<br><br>
+Dans le cas de la scalablité forte, majoritairement l'algorithme trouve 3,141. On est à 6 à 8 ratés pour 25 tentatives au total soit un taux de succès de 72% en moyenne. L'ajout de processus supplémentaire n'améliore pas le résultat<br>
+Dans le cas de la scalabilité faible en revanche, plus il y a de processus mieux nous trouvons 3,141 ! Le résultat est catastrophique pour Nproc = 1 et excellent pour Nproc = 64.<br>
+<br>
+En conclusion, pour calculer 3,141 l'effictiveness de Pi.java est excellente à partir de 64Nproc pour totalCount = 64M dans le cas de la scalabilité faible.<br>
+
+
+### d) Etude de la Satisfaction de Pi.java
+- **Usefulness :**<br>
+- **Trust :**<br>
+  NB : dire si le générateur de nb aléatoire génère bien des nombres aléatoire indépendant entre chaque processus.
+- **Pleasure :**<br>
+- **Comfort :**<br>
+
 
 ## V - Mise en œuvre en mémoire distribuée
 
