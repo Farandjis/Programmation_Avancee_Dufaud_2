@@ -1,8 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-file_path1 = 'pi.txt'
-file_path2 = 'assignement102.txt'
+file_path1 = '17-12-2024_121434_Pi-java_G24-5_output.txt'
+file_path2 = '16-12-2024_112105_Assigment102_G24-5_output.txt'
 
 def faible_speedup(ax, df):
     df_filtered = df[df['Npoint'] != 15000000]

@@ -19,22 +19,27 @@ INF3-FI
 <br><br>
 ## Plan
 
-- **I - Méthode de Monte-Carlo**
-- **II - Algorithme et parallélisation**
-  - a) Itération parallèle
-  - b) Master-Worker
-- **III - Mise en œuvre sur machine à mémoire partagée**
-  - a) Analyse d'Assigment102
-  - b) Analyse Pi.java
-- **IV - Qualité et test de performance (cf R05.08 Q Dev)**
-- **V - Mise en œuvre en mémoire distribuée**
-  - a) (Analyse) JavaSocket
-  - b) MasterWorker
-- **VI - Test de performance Master-Worker distribuée**
+- [**I - Méthode de Monte-Carlo**](#p1)
+- [**II - Algorithme et parallélisation**](#p2)
+  - [a) Itération parallèle](#p2a)
+  - [b) Master-Worker](#p2b)
+- [**III - Mise en œuvre sur machine à mémoire partagée**](#p3)
+  - [a) Analyse d'Assigment102](#p3a)
+  - [b) Analyse Pi.java](#p3b)
+- [**IV - Qualité et test de performance (cf R05.08 Q Dev)**](#p4)
+  - [a) Mise en place](#p4a)
+  - [b) Définitions des termes](#p4b)
+  - [c) Etude sur le critère d'efficiency](#p4c)
+  - [d) Etude sur le critère d'effictiveness pour Pi.java](#p4d)
+  - [e) Etude sur le critère de satisfaction pour Pi.java](#p4e)
+- [**V - Mise en œuvre en mémoire distribuée**](#p5)
+  - [a) (Analyse) JavaSocket](#p5a)
+  - [b) MasterWorker](#p5b)
+- [**VI - Test de performance Master-Worker distribuée**](#p6)
 <br><br><br>
 
 
-## I - Méthode de Monte-Carlo
+## <a name="p1"></a> I - Méthode de Monte-Carlo
 
 La méthode de Monte-Carlo permet de prédire un résultat à partir d'un ensemble de valeurs générées aléatoirement.<br>
 Elle effectue plusieurs itérations pour recalculer et affiner le résultat.<br>
@@ -86,9 +91,9 @@ D'où $`\pi \approx 4 \times \frac{n_{cible}}{n_{tot}}`$<br>
 
 
 <br><br><br>
-## II - Algorithme et parallélisation
+## <a name="p2"></a> II - Algorithme et parallélisation
 
-### a) Itération parallèle
+### <a name="p2a"></a> a) Itération parallèle
 
 L'itération parallèle est aussi appelée parallélisme de boucle et parallélisme itératif.<br>
 Dans un algorithme parallèle, on suppose que le calcul effectué par une unité de calcul est indépendant de celui effectué par une autre unité de calcul.<br>
@@ -129,7 +134,7 @@ Voici un extrait du code d'Assigment102 :<br>
 	}
 ```
 
-### b) Master-Worker
+### <a name="p2b"></a> b) Master-Worker
 
 Le premier algorithme Master-Worker de la méthode de Monte-Carlo que nous avons étudié est Pi.java.<br>
 Master crée puis lance des tâches qui, via le paradigme des futures, font une résolution de dépendance.<br>
@@ -143,9 +148,9 @@ Il est difficile de montrer un exemple du code calculant Monte-Carlo, mais nous 
 
 <br><br><br>
 
-## III - Mise en œuvre sur machine à mémoire partagée
+## <a name="p3"></a> III - Mise en œuvre sur machine à mémoire partagée
 
-### a) Analyse d'Assigment102
+### <a name="p3a"></a> a) Analyse d'Assigment102
 
 Le code de Assignment102 calcule une valeur approximative de 𝜋 à partir de la méthode de Monte-Carlo.<br>
 On y retrouve deux dépendances nouvelles : AtomicInteger et Executor.<br>
@@ -215,7 +220,7 @@ Voici un diagramme UML d'Assigment102 :<br>
 
 *Les outils suivants m'ont aidé : StarUML, ChatGPT*<br>
 
-### b) Analyse Pi.java
+### <a name="p3b"></a> b) Analyse Pi.java
 
 
 **Paradigme de Pi.java :** Master Worker
@@ -252,13 +257,13 @@ De ce fait, Pi.java satisfait le critère "flexible" du Context Coverage de la Q
 
 <br><br><br>
 
-## IV - Qualité et test de performance (cf R05.08 Q Dev)
+## <a name="p4"></a> IV - Qualité et test de performance (cf R05.08 Q Dev)
 
 
 Dans cette partie et les parties qui suivent, nous utilisons la norme ISO_IEC_25010_2011.
 
 
-### a) Mise en place
+### <a name="p4a"></a> a) Mise en place
 
 
 Voici la version corrigée et améliorée de ton texte :
@@ -286,7 +291,7 @@ Ensuite, nous écrivons à la suite du fichier les données reçues, nous sauveg
 Enfin, nous allons traiter ces fichiers via un programme Python afin d'établir un graphique et étudier les résultats.<br>
 Plus précisément, nous allons étudier la scalabilité forte et faible d'Assignment102 et Pi.java sur les critères de temps d'exécution et de speed-up.<br>
 
-### b) Définitions des termes
+### <a name="p4b"></a> b) Définitions des termes
 - **Speed-up :**<br>
   Le speed-up, noté Sp, est le gain de vitesse d’exécution en fonction du nombre de processus P.<br>
   L'idée est donc de mesurer le gain de performance obtenu en exécutant une tâche sur plusieurs processeurs (ou cœurs) par rapport à un seul processeur.<br>
@@ -304,7 +309,9 @@ Plus précisément, nous allons étudier la scalabilité forte et faible d'Assig
 - **Scalabilité faible :**<br>
   La scalabilité faible consiste à étudier ce qu'il se passe lorsqu'on augmente simultanément la taille du problème et le nombre de processus.
 
-### c) Analyse : Etude de l'efficiency
+
+
+### <a name="p4c"></a> c) Etude sur le critère d'efficiency
 L'objectif de cette étude est de prouver quel est le meilleur paradigme pour calculer π à l'aide de la méthode de Monte-Carlo, entre Assignment102 et Pi.java.<br>
 Nous étudons donc l'efficiency des programmes : quel est le programme le plus efficace en terme de temps, d'utilisation des ressources et de marge d'erreur.<br>
 <br>
@@ -314,14 +321,22 @@ Pour rappel :
 
 <br><br>
 
-Les tests suivant ont été effectués sur mon ordinateur personnel, voici sa configuration :
+- Les tests suivant ont été effectués sur un des ordinateurs de la rangée de droite de la salle G24, voici sa configuration :
+  - Processeur : Intel Core i7-9700 3.00GHz - 8 coeurs - DDR4-2666
+    - https://www.intel.fr/content/www/fr/fr/products/sku/191792/intel-core-i79700-processor-12m-cache-up-to-4-70-ghz/specifications.html
+  - RAM : 32Go
+  - Windows 11 Pro 23H2, build : 22631.4169
+  - Attention, certains logiciel fonctionnaient en fond, par ailleurs l'interface graphique de Windows était démarré. Cela influe sur les performances de l'ordinateur.
 
-- Processeur : Intel Core i7-9700 3.00GHz - 8 coeurs - DDR4-2666
-  - https://www.intel.fr/content/www/fr/fr/products/sku/191792/intel-core-i79700-processor-12m-cache-up-to-4-70-ghz/specifications.html
-- RAM : 32Go
-- Windows 11 Pro 23H2, build : 22631.4169
-- Attention, certains logiciel fonctionnaient en fond, par ailleurs l'interface graphique de Windows était démarré. Cela influe sur les performances de l'ordinateur.
-Résultats obtenus :
+
+
+- Information :
+  - **Programme utilisé :** analyseur/analyseur_scalabilités.py
+  - **Fichier étudié pour Pi.java :** 17-12-2024_121434_Pi-java_G24-5_output.txt
+  - **Fichier étudié pour Assignment102 :** 16-12-2024_112105_Assigment102_G24-5_output.txt
+
+
+**Résultats obtenus :**
 <img src="img\etude_sca.png"><br>
 
 - **Expérience n°1 en Scalabilité Forte : Est-ce que le temps d’exécution diminue lorsque j’ajoute des processus pour un problème de taille fixe ?**
@@ -382,11 +397,19 @@ A partir de là, nous pouvons étudier les taux d'erreur de Pi.java sous la form
   <img src="img\etude_sca_e5.png"><br>
   <br>
   Légende :
-  - Points rouges : Représente le taux d'erreur "Error" pour chaque calcul, c'est-à-dire chaque ligne du fichier pi.txt
-  - Points noir : Représente la médiane des taux d'erreurs 
-  - ordonnée : le taux d'erreur
-  - abscisse : Le nombre de processus Nproc en millions (donc 1M = 1000000)
-  
+  - **Points rouges :** Représente le taux d'erreur "Error" pour chaque calcul, c'est-à-dire chaque ligne du fichier pi.txt
+  - **Points noir :** Représente la médiane des taux d'erreurs 
+  - **ordonnée :** le taux d'erreur
+  - **abscisse :** Le nombre de processus Nproc en millions (donc 1M = 1000000)
+  <br><br>
+
+  Information :
+  - **Programme utilisé :** analyseur/analyseur_erreurs.py
+  - **Fichier étudié :** 16-12-2024_215711_Pi-java_DESKTOP-9GESL6B_output.txt
+  - **Fichier étudié partie Scalabilité Forte :** 16-12-2024_215711_Pi-java_DESKTOP-9GESL6B_output__pi_scalabilité_forte.txt
+  - **Fichier étudié partie Scalabilité Faible :** 16-12-2024_215711_Pi-java_DESKTOP-9GESL6B_output__pi_scalabilité_faible.txt
+
+
   Nous remarquons que lors de notre étude de la scalabilité faible, plus il y avait de points totaux (totalCount), plus l'algorithme est fiable.<br>
   Il est a noté que chaque processus calcul "totalCount / nbProcessus", cela signifie dans notre cas que peu importe le nombre de processus, chaque processus calcul Pi pour totalCount = 1000000.<br>
   Seulement, à la fin, cela fait bien 1M * nbProcessus, ce que nous représentons en abscisse dans le graphique.<br>
@@ -396,7 +419,7 @@ A partir de là, nous pouvons étudier les taux d'erreur de Pi.java sous la form
 <br><br><br>
 
 
-### d) Etude de l'effictiveness de Pi.java
+### <a name="p4d"></a> d) Etude sur le critère d'effictiveness pour Pi.java
 
 Même si Pi.java est performant et que sont taux d'erreur diminue plus on augmente le totalCount... Quand est-il de son efficitiveness ?
 Nous allons donc étudier l'effictiveness de Pi.java, c'est-à-dire sa capacité à résoudre le problème parfaitement sur le critère suivant :<br>
@@ -443,7 +466,7 @@ En conclusion, pour calculer 3,141 l'effictiveness de Pi.java est excellente à 
 Il vaut donc mieux utiliser Pi.java en scalabilité faible qu'en scalabité forte.<br>
 
 
-### d) Etude de la Satisfaction de Pi.java
+### <a name="p4e"></a> e) Etude sur le critère de satisfaction pour Pi.java
 Maintenant, nous allons vérifier que Pi.java correspond bien à nos attentes en tant que client.<br>
 <br>
 - **Usefulness :** est ce que le programme est utile ?<br>
@@ -525,9 +548,9 @@ Maintenant, nous allons vérifier que Pi.java correspond bien à nos attentes en
 - **Comfort :**<br>
   Je ne sais pas.
 
-## V - Mise en œuvre en mémoire distribuée
+## <a name="p5"></a> V - Mise en œuvre en mémoire distribuée
 
-### a) (Analyse) JavaSocket
+### <a name="p5a"></a> a) (Analyse) JavaSocket
 
 En Software, le **socket** est un fichier contenant des informations.<br>
 Toutes nos données, toutes les cases mémores sont mis dans un fichier qui est transmis dans le réseau.<br>
@@ -537,7 +560,7 @@ On peut le diminuer en augmentant la charge d'un processus, car traiter quelques
 C'est pour cela que l'architecture d'une carte graphique, utile pour des calcules parallèles n'est pas adapté pour faire fonctionner un système d'exploitation.<br>
 Une carte graphique gère plusieurs petits processus contrairement à un processeurs qui en gère principalement des gros. Avec un GPU, le système serait donc très lent !<br>
 
-### b) MasterWorker
+### <a name="p5b"></a> b) MasterWorker
 
 Pour le dernier projet, on utilise deux fichiers java :
 
@@ -575,7 +598,7 @@ Si nous exécutons nos programmes sur une seule machine, la répartition des Wor
 Si nous l'exécutons sur plusieurs machine, cela correspondrais à ça :<br>
 <img src="img\schema_dufaud_1M_3W_1M_sur_plusieurs_pc.png" width="600"/><br>
 
-## VI - Test de performance Master-Worker distribuée
+## <a name="p6"></a> VI - Test de performance Master-Worker distribuée
 
 Les deux expériences suivante ont été menés en salle G24 le Vendredi 13 Décembre 2024.<br>
 12 ordinateurs à droite ont été utilisés en tant que Worker, 1 ordinateur à gauche a été utilisé en tant que Master.<br>
@@ -585,7 +608,7 @@ Les deux expériences suivante ont été menés en salle G24 le Vendredi 13 Déc
 Seulement, nous ne tiendrons pas compte de l'impact que peut avoir Assignment102 dans notre analyse.<br>
 
 - **Expérience n°6 en Scalabilité Forte : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**<br>
-![](img\scalabilite_forte_MW_sur_machine_192000000.png)<bR><br>
+  <img src="img\scalabilite_forte_MW_sur_machine_192000000.png"><bR><br>
 L'expérience n°6 reprend la consigne de l'expérience n°2. Même si ici le totalCount est différent (192000000) et que la configuration est différente (utilisation d'un parc de 13 PC sous CentOS), nous remarquons une différence frappante entre ces deux expériences !<br>
 Déjà, le speed-up calculé suit le speed-up idéal jusqu'à 16 coeurs (16 processus) contrairement à l'expérience n°2 où c'était de de 1 à 4.<br>
 La courbe commence à dévier à partir de 16 coeurs mais reste proche de l'idéal, il faudrait tester avec davantages de processus pour observer quand ça stagne. Dans l'expérience n°2, ça stagne dès 8 processus.<br>
@@ -595,5 +618,5 @@ Il est intéressant de noter que pour l'expérience n°2 nous sommes allé jusqu
 
 
 - **Expérience n°7 en Scalabilité Faible : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**<br>
-  ![](img\scalabilite_faible_MW_sur_machine_4000000.png)<br><br>
+  <img src="img\scalabilite_faible_MW_sur_machine_4000000.png"><br><br>
   Cette fois ci, c'est l'expérience n°4 qui est comparé. La conclusion reste la même, le résultat du calcul distribué écrase le calcul parallèle.

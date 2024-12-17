@@ -79,5 +79,5 @@ def plot_errors_vs_npoints(file_path1, file_path2):
     plt.show()
 
 # Appeler la fonction avec les chemins des fichiers
-plot_errors_vs_npoints('pi_scalabilité_forte.txt', 'pi_scalabilité_faible.txt')
+plot_errors_vs_npoints('16-12-2024_215711_Pi-java_DESKTOP-9GESL6B_output__pi_scalabilité_forte.txt', '16-12-2024_215711_Pi-java_DESKTOP-9GESL6B_output__pi_scalabilité_faible.txt')
 
