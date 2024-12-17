@@ -22,10 +22,9 @@ public class Pi
 		long total=0;
 		final int[] listNumWorkers = {1, 2, 4, 8 , 16, 32, 64};
 		int totalCountParDefaut = 15000000;
-		int tour = 25;
+		int tour = 5;
 		String time = String.format("%02d%02d%02d", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
-		WriteToFile.writeToFileWithSuffix(time + "_Pi-java", "Error,Npoint,Pi,Nlance,tempsMilis,Nproc");
-
+		WriteToFile.writeToFileWithSuffix(time + "_Pi-java", "Error,Npoint,Pi,Nlance,tempsMilis,Nproc", true);
 
 
 		// POUR SCALABILITÉ FORTE ======================================================================================
@@ -36,16 +35,16 @@ public class Pi
 			}
 		}
 
-
+		/*
 		totalCountParDefaut = 1000000;
-		tour = 25;
+		tour = 50;
 		// POUR SCALABILITÉ FAIBLE ======================================================================================
 		for (int nbNWorker = 0; nbNWorker < listNumWorkers.length; nbNWorker++) {
 			for (int nbTour = 0; nbTour < tour; nbTour++) {
 				total = new Master().doRun(totalCountParDefaut, listNumWorkers[nbNWorker], nbTour, time, totalCountParDefaut*listNumWorkers[nbNWorker]);
 			}
 		}
-
+		*/
     }
 }
 
@@ -56,6 +55,7 @@ public class Pi
 class Master {
     public long doRun(int totalCount, int numWorkers, int nbTour, String timeWTF, int totalCountParDefaut) throws InterruptedException, ExecutionException
     {
+	WriteToFile.writeToFileWithSuffix("Pi-java_trust", "\n=========== tour n°" + nbTour + " Nworker = " + numWorkers + " totalCount = " + totalCount+ " -- date : " + timeWTF, true); // on sauvegarde un extrait de la suite de nombre aléatoire utilisé pour chaque calcul.
 
 	long startTime = System.currentTimeMillis(); // pour mesurer le temps
 
@@ -63,7 +63,7 @@ class Master {
 	List<Callable<Long>> tasks = new ArrayList<Callable<Long>>();
 	for (int i = 0; i < numWorkers; ++i) 
 	    {
-		tasks.add(new Worker(totalCount)); // Ajoute des nouveaux Worker à notre tableau de tâche (nb workers = nb tâches)
+			tasks.add(new Worker(totalCount, i)); // Ajoute des nouveaux Worker à notre tableau de tâche (nb workers = nb tâches)
 	    }
     
 	// Run them and receive a collection of Futures
@@ -94,7 +94,8 @@ class Master {
 	System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
 
 	String result = String.format(Locale.US, "%.10e", (Math.abs((pi - Math.PI)) / Math.PI)) + "," + totalCountParDefaut + "," + pi + "," + nbTour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
-	WriteToFile.writeToFileWithSuffix(timeWTF + "_Pi-java", result);
+	WriteToFile.writeToFileWithSuffix(timeWTF + "_Pi-java", result, true); // on sauvegarde le résultat et d'autres données de chaque calcul ici
+
 	System.out.println(result);
 
 	exec.shutdown();
@@ -108,8 +109,10 @@ class Master {
 class Worker implements Callable<Long> 
 {   
     private int numIterations;
-    public Worker(int num) 
-	{ 
+	private int id;
+    public Worker(int num, int i)
+	{
+		this.id = i;
 	    this.numIterations = num; 
 	}
 
@@ -118,10 +121,13 @@ class Worker implements Callable<Long>
       {
 	  long circleCount = 0;
 	  Random prng = new Random ();
-	  for (int j = 0; j < numIterations; j++) 
+	  for (int j = 0; j < numIterations; j++)
 	      {
 		  double x = prng.nextDouble();
 		  double y = prng.nextDouble();
+		  if (j < 5) {
+			  WriteToFile.writeToFileWithSuffix("Pi-java_trust", "--[W" + this.id+ " - tour " + j + "]-->(" + x + ", " + y + ")", true);
+		  }
 		  if ((x * x + y * y) < 1)  ++circleCount;
 	      }
 	  return circleCount;

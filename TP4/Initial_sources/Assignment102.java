@@ -47,7 +47,7 @@ public class Assignment102 {
 		int totalCountParDefaut = 15000000;
 		int tour = 50;
 		String time = String.format("%02d%02d%02d", LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
-		WriteToFile.writeToFileWithSuffix(time + "_Assigment102", "Error,Npoint,Pi,Nlance,tempsMilis,Nproc");
+		WriteToFile.writeToFileWithSuffix(time + "_Assigment102", "Error,Npoint,Pi,Nlance,tempsMilis,Nproc", true);
 
 
 
@@ -74,7 +74,7 @@ public class Assignment102 {
 
 				// String result = value + ", " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + ", " + listTotalCount[nbTC] * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
 				String result = String.format(Locale.US, "%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "," + totalCountParDefaut + "," + value + "," + nbTour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
-				WriteToFile.writeToFileWithSuffix(time + "_Assigment102", result);
+				WriteToFile.writeToFileWithSuffix(time + "_Assigment102", result, true);
 				System.out.println(result);
 			}
 		}
@@ -104,7 +104,7 @@ public class Assignment102 {
 
 				// String result = value + ", " + String.format("%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + ", " + listTotalCount[nbTC] * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
 				String result = String.format(Locale.US, "%.10e", (Math.abs((value - Math.PI)) / Math.PI)) + "," + totalCountParDefaut * numWorkers + "," + value + "," + nbTour +  "," + (stopTime - startTime)  + "," + numWorkers; // avec sauveur.py de Florent
-				WriteToFile.writeToFileWithSuffix(time + "_Assigment102", result);
+				WriteToFile.writeToFileWithSuffix(time + "_Assigment102", result, true);
 				System.out.println(result);
 			}
 		}

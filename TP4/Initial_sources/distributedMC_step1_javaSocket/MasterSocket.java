@@ -126,7 +126,7 @@ public class MasterSocket {
 		   System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
 
 		   String result = pi + ", " + String.format("%.10e",(Math.abs((pi - Math.PI)) / Math.PI)) + ", " + totalCount * numWorkers + ", " + numWorkers + ", " + (stopTime - startTime);
-		   WriteToFile.writeToFileWithSuffix("Pi", result);
+		   WriteToFile.writeToFileWithSuffix("Pi", result, true);
 
 		   System.out.println("\n Repeat computation (y/N): ");
 		   try{

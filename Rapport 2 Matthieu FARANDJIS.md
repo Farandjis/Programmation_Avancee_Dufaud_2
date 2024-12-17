@@ -246,11 +246,17 @@ Voici un diagramme UML de Pi.java :<br>
 
 *Les outils suivants m'ont aidé : StarUML, ChatGPT*<br>
 
-
+<br><br>
+Avec le modèle l'utilisation du paradigme Master-Worker, nous pouvons facilement répartir la partie Worker sur une autre machine avec quelque modification.<br>
+De ce fait, Pi.java satisfait le critère "flexible" du Context Coverage de la Quality in use.<br>
 
 <br><br><br>
 
 ## IV - Qualité et test de performance (cf R05.08 Q Dev)
+
+
+Dans cette partie et les parties qui suivent, nous utilisons la norme ISO_IEC_25010_2011.
+
 
 ### a) Mise en place
 
@@ -283,7 +289,13 @@ Plus précisément, nous allons étudier la scalabilité forte et faible d'Assig
 ### b) Définitions des termes
 - **Speed-up :**<br>
   Le speed-up, noté Sp, est le gain de vitesse d’exécution en fonction du nombre de processus P.<br>
-  L'idée est donc de mesurer le gain de performance obtenu en exécutant une tâche sur plusieurs processeurs (ou cœurs) par rapport à un seul processeur.
+  L'idée est donc de mesurer le gain de performance obtenu en exécutant une tâche sur plusieurs processeurs (ou cœurs) par rapport à un seul processeur.<br>
+  <br>
+  Il se calcul de cette manière : $`S_p = \frac{T_1}{T_p}`$ : <br>
+  Avec :
+  - $`S_p`$ le speedup 
+  - $`T_1`$ le temps d’éxécution sur un processus
+  - $`T_P`$ le temps d’éxécution sur P processus
 - **Temps d'exécution**<br>
   Le temps d'exécution correspond au temps que demande le programme pour effectuer le calcul de π.<br>
   Dans le cas du paradigme Master-Worker, le temps d'exécution correspond au temps des échanges entre le Master et les Workers, au temps que demandent les Workers pour calculer, ainsi qu'au temps nécessaire pour assembler le résultat final par le Master.
@@ -304,13 +316,11 @@ Pour rappel :
 
 Les tests suivant ont été effectués sur mon ordinateur personnel, voici sa configuration :
 
-- Processeur : Intel Core i5-9400F, 2.90Ghz, 6 Coeurs, 1 Socket
-- RAM : 8Go
-- Windows 10 Home 22H2, build : 19045.5247
-- Carte Graphique : NVIDIA GeForce FTX 1050
+- Processeur : Intel Core i7-9700 3.00GHz - 8 coeurs - DDR4-2666
+  - https://www.intel.fr/content/www/fr/fr/products/sku/191792/intel-core-i79700-processor-12m-cache-up-to-4-70-ghz/specifications.html
+- RAM : 32Go
+- Windows 11 Pro 23H2, build : 22631.4169
 - Attention, certains logiciel fonctionnaient en fond, par ailleurs l'interface graphique de Windows était démarré. Cela influe sur les performances de l'ordinateur.
-- **Remarque : les courbes obtenues sont semblable à ceux obtenus sur les PC en salle G24. Les tableaux sont différents cependant.**
-
 Résultats obtenus :
 <img src="img\etude_sca.png"><br>
 
@@ -328,9 +338,11 @@ Résultats obtenus :
 
   La courbe bleu correspond au speed-up idéal en fonction du nombre de processus.<br>
   Cela signifie que dans l'idéal, si la méthode est parfaitement parallèle, le fait de doubler le nombre de processus divise par deux le temps de calcul. En d'autre terme : il y a une excellente répartiion des ressources.<br>
+  La courbe du speedup idéal augmente rapidement puisque chaque processus est censé s'exécuter plus rapidement à chaque ajout (vu que le totalCount attribué diminue à chaque ajout).<br>
+  Si le point de notre de mesure est au dessus du speedup idéal, c'est que le processus résout plus rapidement le problème que dans la logique, sinon si c'est en dessous, c'est qu'il met plus de temps.<br>
   <br>
   - **Pi.java**<br>
-    Nous remarquons que le speedup suit le speed-up idéal au début lorsque l'on utilise 1 à 4 processus, puis augmente très lentement de 4 à 16 processus avant de stagner.<br>
+    Nous remarquons que le speedup suit le speed-up idéal au début lorsque l'on utilise 1 à 8 processus, puis augmente très lentement de 8 à 16 processus avant de stagner.<br>
     Cela signifie que Pi.java est efficace lorsque l'on utilise un petit nombre de processus.<br>
     Après cela, on peut déduire que l'interaction de plus en plus importante entre le Master et les Workers fait perdre de l'efficacité au programme. Ce temps de traitement de plusieurs processus par la machine s'appel "overhead", nous en parlons en partie V a).
   - **Assignment102**<br>
@@ -345,18 +357,20 @@ Résultats obtenus :
   <img src="img\etude_sca_e3.png"><br>
   Nous remarquons que dans les deux cas, le temps d'exécution augmente. Cependant, ici également Pi.java reste le plus effiace : il augmente beaucoup moins vite qu'Assignment102 si l'on se fie à l'axe des ordonnées.<br>
   Nous remarquons également que c'est une courbe linéaire, ce qui est normal puisque le problème grandi proportionnellement au nombre de processus.<br>
-  Il est a noté que dans le cas de Pi.java, de 1 à 4 processus le temps est constant, ça augmente dès qu'il y a plus de 4 processus.
+  Il est a noté que dans le cas de Pi.java, de 1 à 8 processus le temps est constant, ça augmente dès qu'il y a plus de 8 processus.
   <br>
   Même lors d'une étude de scalabité faible, Pi.java est mieux qu'Assignment102.
 
 
 - **Expérience n°4 en Scalabilité Faible : Comment les ressources sont utilisés lorsque j’augmente simultanément la taille du problème et le nombre de processus ?**
   <img src="img\etude_sca_e4.png"><br>
+  Ici, le speedup idéal est constant. Bien qu'on augmente le totalCount général, chaque processus calcul le même totalCount et donc par conséquent, prend le même temps d'exécution dans l'idéal.<br>
+  <br>
   Notre observation rejoins l'oberservation sur l'expérience n°2 : augmenter le nombre de processus ne permet pas toujours d'avoir un bon speed-up, même si la taille du problème augmente proportionnellement.<br>
-  En effet, comme dans l'expérience n°2, de 1 à 4 la courbe suit le speed-up idéal, après cela le coût des communications entre le Master et les Workers influe trop sur les performances.<br>
+  En effet, comme dans l'expérience n°2, de 1 à 8 la courbe suit le speed-up idéal, après cela le coût des communications entre le Master et les Workers influe trop sur les performances.<br>
   De même que dans l'expérience n°2, Assignment102 s'effond rapidement.<br>
   <br>
-  Seulement, je me demande si Pi.java ne stagne pas comme Assignment102 à partir de 128 processus lorsque l'on compare l'allure des deux courbes.
+  Seulement, je me demande si Pi.java ne finira pas par stagner comme Assignment102 lorsque l'on compare l'allure des deux courbes.
   <br>
   La conlusion reste là mêmen Pi.java est mieux qu'Assignment102.<br>
 
@@ -432,12 +446,84 @@ Il vaut donc mieux utiliser Pi.java en scalabilité faible qu'en scalabité fort
 ### d) Etude de la Satisfaction de Pi.java
 Maintenant, nous allons vérifier que Pi.java correspond bien à nos attentes en tant que client.<br>
 <br>
-- **Usefulness :**<br>
-- **Trust :**<br>
-  NB : dire si le générateur de nb aléatoire génère bien des nombres aléatoire indépendant entre chaque processus.
-- **Pleasure :**<br>
-- **Comfort :**<br>
+- **Usefulness :** est ce que le programme est utile ?<br>
+  Dans notre cas, le programme est utile pour faire notre étude.<br>
+  En général, l'algorithme de Monte-Carlo utilisé pour modéliser des systèmes incertains ou aléatoires dans divers domaines tel que la Finance, la Physique statique et la biologie (selon ChatGPT).
 
+
+- **Trust :** est ce que le programme respecte la norme ?<br>
+  Pour assurer notre confiance envers le programme, nous devons vérifier que le générateur de nombre aléatoire génère bien des nombres aléatoires indépendant entre chaque processus.<br>
+  <br>
+  Le générateur de nombre aléatoire se trouve dans la boucle for de la méthode `call` de la classe `Worker`.<br>
+  Nous allons donc écrire dans un fichier de texte les valeurs enregistrés pour quel Worker (son id) et pour quel tour (la variable j). Non indiquerons dans un nouveau attribu "id" de la classe, le numéro du Worker.<br>
+  Afin de distinguer les exécutions du programme, nous indiquerons juste avant les critères de lancement tel que le nombre de worker ou le totalCount.<br>
+  <br>
+  L'expérience qui suit a été fait sur mon ordinateur avec la configuration suivante :
+
+  - Fichier : Pi.java
+    - En : Scalabilité forte
+    - Nombre de processus : 1, 2, 4, 8
+    - totalCount : 15000000
+  - PC :
+    - Processeur : Intel Core i5-9400F, 2.90Ghz, 6 Coeurs, 1 Socket
+    - RAM : 8Go
+    - Windows 10 Home 22H2, build : 19045.5247
+    - Attention, certains logiciel fonctionnaient en fond, par ailleurs l'interface graphique de Windows était démarré. Cela influe sur les performances de l'ordinateur.
+    
+  <br><br>
+  Voici une sélection du fichier `17-12-2024_Pi-java_trust_DESKTOP-9GESL6B_output.txt`. Notre analyse se fondera dessus :
+  ```
+  =========== tour n°4 Nworker = 2 totalCount = 7500000 -- heure : 205745
+    --[W0 - tour 0]-->(0.6081051753721731, 0.6047682773649212)
+    --[W1 - tour 0]-->(0.7278271711041955, 0.6775989547714912)
+    --[W0 - tour 1]-->(0.20780501411925578, 0.8716607124040157)
+    --[W1 - tour 1]-->(0.5941601270829872, 0.061907042047551264)
+    --[W0 - tour 2]-->(0.05355968858713944, 0.7126668019026495)
+    --[W1 - tour 2]-->(0.887138018183691, 0.20071311431511185)
+    --[W0 - tour 3]-->(0.24020044011396913, 0.07554104600422717)
+    --[W1 - tour 3]-->(0.3866213958047845, 0.5359512604793124)
+    --[W0 - tour 4]-->(0.3227026009876759, 0.37004047777817484)
+    --[W1 - tour 4]-->(0.45311327236889853, 0.2326071153151319)
+
+  =========== tour n°0 Nworker = 4 totalCount = 3750000 -- heure : 205745
+    --[W0 - tour 0]-->(0.8025528982424484, 0.2226773653722971)
+    --[W1 - tour 0]-->(0.3248899870176598, 0.04926276744406999)
+    --[W2 - tour 0]-->(0.5225164923121788, 0.6900527962622921)
+    --[W3 - tour 0]-->(0.43812046529937565, 0.07867120537337235)
+    --[W1 - tour 1]-->(0.7862151186163597, 0.36044700594397694)
+    --[W0 - tour 1]-->(0.4851773188977315, 0.6621674785597783)
+    --[W2 - tour 1]-->(0.006746046782472925, 0.6354973634446587)
+    --[W3 - tour 1]-->(0.4077618482875708, 0.6449175124991942)
+    --[W1 - tour 2]-->(0.04196849409072456, 0.088908523700715)
+    --[W0 - tour 2]-->(0.2926212471609845, 0.7998970075375)
+    --[W2 - tour 2]-->(0.63435248239826, 0.8108491937973279)
+    --[W3 - tour 2]-->(0.8324205636569904, 0.47053779689037745)
+    --[W1 - tour 3]-->(0.2730817545547871, 0.2964243338384539)
+    --[W0 - tour 3]-->(0.5155221502509648, 0.8220765104699722)
+    --[W2 - tour 3]-->(0.6719261799865358, 0.963865894251568)
+    --[W3 - tour 3]-->(0.12983509879140642, 0.7102248715438713)
+    --[W1 - tour 4]-->(0.461360743383905, 0.9939536120283735)
+    --[W0 - tour 4]-->(0.9480406778244539, 0.4022095903943069)
+    --[W2 - tour 4]-->(0.9439628526362639, 0.9553383219811445)
+    --[W3 - tour 4]-->(0.38479681908071495, 0.16050873876455507)
+  ```
+
+  Ces deux appels au programme se différencie par le nombre de Worker et le totalCount qui a augmenté entre temps.<br>
+  Ces données sont involontairement classé par l'itération de la variable `j` dans la boucle for. Cela simplifie nos comparaisons.<br>
+  <br>
+  Nous remarquons que sur un même tour, aucun Worker ne possède le même nombre généré aléatoire, que ce soit pour `x` (à gauche) ou `y` (à droite), qui sont les deux variables dans la boucle.<br>
+  <br>
+  Nous pouvons alors conclure que **oui, Pi.java est fiable puisque son générateur de nombre aléatoire génère bien des nombres aléatoires distinct entre les Workers**.<br>
+  Autrement, chaque Worker aurait fait le même calcul, donc on aurait fait nWorker fois la même chose même si nous sommes allé plus vite. Ca n'aurait donc servi à rien.<br>
+  La confiance "trust" dépend de la précision et de la qualité du code.
+
+
+- **Pleasure :** est ce que on a des désagrément dans l'utilisation, est ce qu'on a de mauvaises surprise ?<br>
+  Je suppose que oui, disons que le code s'exécute rapidement et qu'il utilise assez bien la puissance de l'ordinateur. Il est facile d'utilisation je trouve.<br>
+
+
+- **Comfort :**<br>
+  Je ne sais pas.
 
 ## V - Mise en œuvre en mémoire distribuée
 
@@ -486,7 +572,7 @@ Ici on sait ce qu'il a précisément besoin et ce qu'il doit renvoyer, faire.<br
   - Cliquer sur le bouton "3 points vertical", puis dans "Config", dans "Modify options (Build and Run)", cocher Allow m... (CTRL+U) en haut de la liste.
 <br><br>
 Si nous exécutons nos programmes sur une seule machine, la répartition des Worker + Master correspond au schéma du III - b).<br>
-Si nous l'exécutons sur plusieurs machine, cela correspondrais à ça :
+Si nous l'exécutons sur plusieurs machine, cela correspondrais à ça :<br>
 <img src="img\schema_dufaud_1M_3W_1M_sur_plusieurs_pc.png" width="600"/><br>
 
 ## VI - Test de performance Master-Worker distribuée
@@ -494,9 +580,20 @@ Si nous l'exécutons sur plusieurs machine, cela correspondrais à ça :
 Les deux expériences suivante ont été menés en salle G24 le Vendredi 13 Décembre 2024.<br>
 12 ordinateurs à droite ont été utilisés en tant que Worker, 1 ordinateur à gauche a été utilisé en tant que Master.<br>
 <br>
-- **Expérience n°1 en Scalabilité Forte : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**
-  <img src=""><br>
+
+**Attention :** les ordinateurs "Workers" n'exécutais pas tous Pi.java, certains étaient sous Assignment102 !<br>
+Seulement, nous ne tiendrons pas compte de l'impact que peut avoir Assignment102 dans notre analyse.<br>
+
+- **Expérience n°6 en Scalabilité Forte : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**<br>
+![](img\scalabilite_forte_MW_sur_machine_192000000.png)<bR><br>
+L'expérience n°6 reprend la consigne de l'expérience n°2. Même si ici le totalCount est différent (192000000) et que la configuration est différente (utilisation d'un parc de 13 PC sous CentOS), nous remarquons une différence frappante entre ces deux expériences !<br>
+Déjà, le speed-up calculé suit le speed-up idéal jusqu'à 16 coeurs (16 processus) contrairement à l'expérience n°2 où c'était de de 1 à 4.<br>
+La courbe commence à dévier à partir de 16 coeurs mais reste proche de l'idéal, il faudrait tester avec davantages de processus pour observer quand ça stagne. Dans l'expérience n°2, ça stagne dès 8 processus.<br>
+Nous remarquons tout de suite la puissance d'un parc informatique assemblé pour faire un calcul distribué plutôt qu'un seul pc pour un calcul parallèle.<br>
+<br>
+Il est intéressant de noter que pour l'expérience n°2 nous sommes allé jusqu'à 64 processus, ici, nous nous arrêtons à 48. Mais nous pouvons assez bien imaginé la suite des courbes et surtout nous pouvons comparés les résultats aisément.
 
 
-- **Expérience n°2 en Scalabilité Faible : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**
-  <img src=""><br>
+- **Expérience n°7 en Scalabilité Faible : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**<br>
+  ![](img\scalabilite_faible_MW_sur_machine_4000000.png)<br><br>
+  Cette fois ci, c'est l'expérience n°4 qui est comparé. La conclusion reste la même, le résultat du calcul distribué écrase le calcul parallèle.
