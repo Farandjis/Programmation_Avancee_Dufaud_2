@@ -28,7 +28,7 @@ INF3-FI
   - [a) (Analyse) JavaSocket](#p5a)
   - [b) MasterWorker](#p5b)
 - [**VI - Test de performance Master-Worker distribuée**](#p6)
-
+- [**VIII - Mesures bonus sur Pi.java mais sans explication**](#p8)
 <br><br><br><br><br><br><br><br><br>
 
 ____
@@ -656,3 +656,65 @@ Seulement, nous ne tiendrons pas compte de l'impact que peut avoir Assignment102
 - **Expérience n°7 en Scalabilité Faible : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**<br>
   <img src="img\scalabilite_faible_MW_sur_machine_4000000.png"><br><br>
   Cette fois-ci, c'est l'expérience n°4 qui est comparée. La conclusion reste la même : le résultat du calcul distribué écrase celui du calcul parallèle
+
+
+___ 
+## <a name="p8"></a> VIII - Mesures bonus sur Pi.java mais sans explication
+
+<img src="img\mesure_supp1.png"><br>
+<img src="img\mesure_supp2.png">
+
+___ 
+## <a name="p9"></a> IX - System/Software Product Quality
+
+- Functional Suitability : Respect des fonctionnalités, des attendus de l'utilisateur
+  - Pi.java répond aux attentes de l'utilisateur comme déjà expliqué pour le critère "Satisfaction" de la Quality in use
+- Performance efficiency :
+  - Time behavior : limite de temps d'utilisation
+    - La seul limite que connait Pi.java est celle de Java comme l'espace mémoire du système attribué à Java.<br>
+      Autrement, le programme ne s'arrête pas après un certain temps dans le cas d'un très grand calcul.<br>
+      <br>
+      L'utilisateur doit avoir conscience du temps que peut prendre son calcul.
+  - Resource utilisation capacity : utilisation des ressources, quantité de mémoire
+    - cela dépend des calculs effectués.<br>
+      Par exemple, dans le cas de la mesure bonus n°2 de la partie 8, voici ce qu'indiquait le Gestionnaire des tâches :
+      <img src="img\utilisation processeur.png"><br>
+      <br>
+      Nous observons que le processeur est monopolisé par Java, en terme de mémoire volatile, Java n'en utilise pas beaucoup à ce moment de l'étude (voir console).<br>
+      La capture provient d'un ordinateur de la salle G24, rangée de droite.
+- Compatibility : Si on peut l'utiliser avec d'autres librairies par exemple
+  - Pi.java est utilisable sous Linux avec CentOS. Il n'y a pas eu de tests de compatiblité avancés.
+- Usability :
+  - Appropriateness recognisability : Si c'est facile à prendre en main
+    - Déjà abordé dans la section "Satisfaction" de la Quality in use
+  - Learnability : Si c'est facile à apprendre, s'il y a un guide, un tutoriel
+    - Ce rapport explique comment utiliser Pi.java mais également ce que l'on peut en faire.<br>
+      Autrement, son lancement est simple sur IntelliJ.
+    - Operability :
+      - Non étudié
+    - User error protection : est ce qu'il protège ou demande une confirmation lors d'une situation à rique
+      - Pi.java ne présente aucune situation à risque, excepé si on exécute un calcul lourd : de ce fait, la charge demandé pour l'ordinateur est importante.<br>
+        Pi.java ne juge pas de l'importance du problème et n'informe donc pas l'utilisateur des conséquences de son calcul.
+    - User Interface aesthetics :
+      - Non étudié
+    - Accessibility :
+      - L'accessibility de Pi.java est en lien à l'accessibilité du terminal Linux ou d'IntelliJ en fonction de comment on démarre le programme.
+- Reliability
+  - Maturity : Si on a appris des erreurs de la dernière version
+    - J'ai appris que nous ne devons pas toucher au code de Pi.java : `tasks.add(new Worker(totalCount, i));`, on doit laisser cette ligne tel quel.<br>
+      Si nous divisons totalCount par le nombre de processus, cela rend le calcul de Pi faux (on doit enlever la division par le nombre de processus dans ce cas) :  `pi = 4.0 * total / totalCount / numWorkers;`
+  - Availability :
+    - Le programme ne demande pas de condition d'exécution particulière. 
+  - Fault tolerance : Dans quel mesure le logiciel tolère une erreur
+    - Non étudié
+  - Recoverability :
+    - Non étudié
+- Security
+  - Confidentiality :
+    - Pi.java ne manipule pas de données confidentiel
+  - Integrity : Si une donnée peut être modifié
+    - Non étudié
+  - Accountability :
+    - Non étudié
+  - Authenticity : Si les données sont authentique avec une utilisation de chiffrement RSA par exemple.
+    - Non étudié
