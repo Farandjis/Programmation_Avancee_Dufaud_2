@@ -636,6 +636,11 @@ Les deux expériences suivantes ont été menées en salle G24 le Vendredi 13 D�
 **Attention :** les ordinateurs "Workers" n'exécutaient pas tous Pi.java, certains étaient sous Assignment102 !<br>
 Seulement, nous ne tiendrons pas compte de l'impact que peut avoir Assignment102 dans notre analyse.<br>
 
+<br>
+
+<img src="img/scalabilite_distribuee_forte_faible_tableau.png">
+
+<br><br>
 
 - **Expérience n°6 en Scalabilité Forte : Comment les ressources sont utilisés lorsque j'ajoute des processus pour un problème de taille fixe ?**<br>
   <img src="img\scalabilite_forte_MW_sur_machine_192000000.png"><bR><br>
