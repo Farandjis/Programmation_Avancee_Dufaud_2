@@ -29,6 +29,7 @@ INF3-FI
   - [b) MasterWorker](#p5b)
 - [**VI - Test de performance Master-Worker distribuée**](#p6)
 - [**VIII - Mesures bonus sur Pi.java mais sans explication**](#p8)
+- [**IX - System/Software Product Quality**](#p9)
 <br><br><br><br><br><br><br><br><br>
 
 ____
