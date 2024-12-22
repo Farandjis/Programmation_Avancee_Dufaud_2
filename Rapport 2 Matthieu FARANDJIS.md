@@ -28,8 +28,8 @@ INF3-FI
   - [a) (Analyse) JavaSocket](#p5a)
   - [b) MasterWorker](#p5b)
 - [**VI - Test de performance Master-Worker distribuée**](#p6)
-- [**VIII - Mesures bonus sur Pi.java mais sans explication**](#p8)
-- [**IX - System/Software Product Quality**](#p9)
+- [**VII - Mesures bonus sur Pi.java mais sans explication**](#p8)
+- [**VIII - System/Software Product Quality**](#p9)
 <br><br><br><br><br><br><br><br><br>
 
 ____
@@ -326,7 +326,7 @@ Plus précisément, nous allons étudier la scalabilité forte et faible d'Assig
 
 ### <a name="p4c"></a> c) Etude sur le critère d'efficiency
 L'objectif de cette étude est de prouver quel est le meilleur paradigme pour calculer π à l'aide de la méthode de Monte-Carlo, entre Assignment102 et Pi.java.<br>
-Nous étudons donc l'efficiency des programmes : quel est le programme le plus efficace en terme de temps, d'utilisation des ressources et de marge d'erreur.<br>
+Nous étudons donc l'efficiency des programmes : quel est le programme le plus efficace en terme de temps et d'utilisation des ressources.<br>
 <br>
 Pour rappel :
 - Paradigme d'Assignment102 : Itération parallèle
@@ -660,13 +660,13 @@ Seulement, nous ne tiendrons pas compte de l'impact que peut avoir Assignment102
 
 
 ___ 
-## <a name="p8"></a> VIII - Mesures bonus sur Pi.java mais sans explication
+## <a name="p8"></a> VII - Mesures bonus sur Pi.java mais sans explication
 
 <img src="img\mesure_supp1.png"><br>
 <img src="img\mesure_supp2.png">
 
 ___ 
-## <a name="p9"></a> IX - System/Software Product Quality
+## <a name="p9"></a> VIII - System/Software Product Quality
 
 - Functional Suitability : Respect des fonctionnalités, des attendus de l'utilisateur
   - Pi.java répond aux attentes de l'utilisateur comme déjà expliqué pour le critère "Satisfaction" de la Quality in use
